@@ -15,7 +15,7 @@ Then it implements the fixes: accessibility attributes, semantic HTML, visual hi
 
 ## The 15 Principles
 
-| # | Principle | What It Catches |
+| # | Principle | Examples of What It Catches |
 |---|-----------|----------------|
 | 1 | Visibility of System Status | Missing loading states, no feedback on actions |
 | 2 | Match Between System and Real World | Jargon, unintuitive labels, wrong mental models |
