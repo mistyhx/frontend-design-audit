@@ -118,17 +118,7 @@ Here's a task management dashboard before and after the audit — the skill iden
 
 ![Task dashboard after audit](examples/screenshots/task-dashboard-after.png)
 
-The `examples/` directory contains more before/after pairs:
-
-| Site | Before | After | Report |
-|------|--------|-------|--------|
-| Coffee shop landing page | `coffee-shop.html` | `coffee-shop-improved.html` | `reports/coffee-shop-report.md` |
-| SaaS pricing page | `saas-pricing.html` | `saas-pricing-improved.html` | `reports/saas-pricing-report.md` |
-| Task dashboard | `task-dashboard.html` | `task-dashboard-improved.html` | `reports/task-dashboard-report.md` |
-
-Open any pair in a browser to see the difference.
-
-### What Changed: Task Dashboard
+### What Changed
 
 The original dashboard had solid bones — working drag-and-drop, a modal with focus trapping, responsive layout. But the audit found 22 issues across accessibility, visual hierarchy, and interaction design. Key improvements:
 
@@ -140,27 +130,15 @@ The original dashboard had solid bones — working drag-and-drop, a modal with f
 
 **Interaction polish** — Buttons gained `:active` pressed states and `:disabled` styling. Activity feed dots replaced with distinct icons (checkmark, arrow, speech bubble) so category isn't color-only. Completed tasks use a CSS class instead of inline `opacity`.
 
-### What Changed: SaaS Pricing Page
+The `examples/` directory contains more before/after pairs:
 
-The audit found 18 issues. The original had a clean aesthetic but critical accessibility gaps and flat visual hierarchy.
+| Site | Before | After | Report |
+|------|--------|-------|--------|
+| Coffee shop landing page | `coffee-shop.html` | `coffee-shop-improved.html` | `reports/coffee-shop-report.md` |
+| SaaS pricing page | `saas-pricing.html` | `saas-pricing-improved.html` | `reports/saas-pricing-report.md` |
+| Task dashboard | `task-dashboard.html` | `task-dashboard-improved.html` | `reports/task-dashboard-report.md` |
 
-**Accessibility** — Billing toggle rebuilt from a `<div onclick>` to a `<button role="switch">` with `aria-checked` and keyboard support. FAQ questions changed from divs to `<button>` elements with `aria-expanded`. Added skip navigation, `:focus-visible` on all interactive elements, `<main>` landmark, and screen-reader text for comparison table checkmarks/crosses.
-
-**Visual hierarchy** — Plan names increased from `1.1rem/600` to `1.35rem/700`, creating clear card anchors. Feature text subordinated. Comparison table section headers (Storage & Sync, Collaboration, Security) styled with background tint and primary color to read as category labels. Active nav link highlighted.
-
-**Typography and contrast** — Fixed `#94a3b8` text (3.0:1) throughout — plan descriptions, price periods, footer links — to WCAG-compliant values. Added `prefers-reduced-motion` support.
-
-### What Changed: Coffee Shop Landing Page
-
-The audit found 18 issues, including two severity 4 (catastrophe) findings.
-
-**Critical fixes** — All 7 images gained descriptive alt text (were completely empty). Removed `user-scalable=no` from viewport meta, which was blocking pinch-to-zoom for low-vision users.
-
-**Form overhaul** — Inputs went from placeholder-only to proper `<label>` elements. Email field changed from `type="text"` to `type="email"`, phone to `type="tel"`. Added `autocomplete` attributes. Replaced `alert()` submission with inline success message that preserves form data.
-
-**Visual hierarchy** — Established 3-level button hierarchy: primary (solid, larger) for "Place Order", secondary for "Order Now", ghost for "Explore Our Menu". Menu card hover-lift removed (was a false affordance — cards aren't clickable). Added semantic landmarks (`<main>`, `<header>`, `<nav aria-label>`), skip navigation, and `:focus-visible` styles.
-
-**Brand consistency** — Warm brown palette preserved (not replaced with generic indigo). Testimonials use border-left accents instead of cards. Intentional spacing: tight within groups, generous between sections.
+Open any pair in a browser to see the difference.
 
 ## How It Works
 
