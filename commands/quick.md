@@ -10,9 +10,9 @@ Evaluate and fix in one pass. No discussion — just identify and implement.
 ## Required Reading
 
 Before starting, read:
-1. `../skills/frontend-design-audit/SKILL.md` — Framework and evaluation process
-2. `../skills/frontend-design-audit/references/heuristics.md` — What to look for
-3. `../skills/frontend-design-audit/references/patterns.md` — Fix patterns
+1. `../SKILL.md` — Framework and evaluation process
+2. `../references/heuristics.md` — What to look for
+3. `../references/patterns.md` — Fix patterns
 
 ## Usage
 

@@ -4,7 +4,7 @@ A Claude Code skill that audits and improves the usability of existing front-end
 
 ## What It Does
 
-Think of it as a senior UX designer reviewing your interface end-to-end. It inspects HTML, CSS, JavaScript, React, Vue, Svelte — any front-end code — and produces a structured audit report with:
+Think of it as a Senior UX Engineer/Designer reviewing your interface end-to-end. It inspects HTML, CSS, JavaScript, React, Vue, Svelte — any front-end code — and produces a structured audit report with:
 
 - **Findings** rated on a 0–4 severity scale (catastrophe → cosmetic)
 - **Principle references** linking each issue to established usability research
@@ -14,8 +14,6 @@ Think of it as a senior UX designer reviewing your interface end-to-end. It insp
 Then it implements the fixes: accessibility attributes, semantic HTML, visual hierarchy improvements, design system extraction, interaction patterns, and more.
 
 ## The 15 Principles
-
-Drawn from Nielsen's heuristics, Don Norman's design principles, Constantine & Lockwood, and Universal Design:
 
 | # | Principle | What It Catches |
 |---|-----------|----------------|
@@ -37,11 +35,30 @@ Drawn from Nielsen's heuristics, Don Norman's design principles, Constantine & L
 
 ## Installation
 
-Clone this repo and point Claude Code at it:
+### Clone directly into your skills directory
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/frontend-design-audit.git
-claude --plugin-dir ./frontend-design-audit
+git clone https://github.com/mistyhx/frontend-design-audit.git ~/.claude/skills/frontend-design-audit
+```
+
+Then copy the slash commands:
+
+```bash
+mkdir -p ~/.claude/commands
+cp ~/.claude/skills/frontend-design-audit/commands/* ~/.claude/commands/
+```
+
+That's it. Start Claude Code in any project and the skill is available.
+
+### Or add to a specific project
+
+If you only want the skill in one project:
+
+```bash
+cd your-project
+mkdir -p .claude/skills .claude/commands
+git clone https://github.com/mistyhx/frontend-design-audit.git .claude/skills/frontend-design-audit
+cp .claude/skills/frontend-design-audit/commands/* .claude/commands/
 ```
 
 ## Usage

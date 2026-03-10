@@ -10,8 +10,8 @@ Implement improvements from a usability audit. This command is for after an audi
 ## Required Reading
 
 Before starting, read:
-1. `../skills/frontend-design-audit/SKILL.md` — Workflow and principles
-2. `../skills/frontend-design-audit/references/patterns.md` — Common fix patterns with code examples
+1. `../SKILL.md` — Workflow and principles
+2. `../references/patterns.md` — Common fix patterns with code examples
 
 ## Process
 

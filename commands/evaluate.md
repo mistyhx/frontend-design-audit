@@ -10,8 +10,8 @@ Run a usability audit and produce a report. Do not implement any changes.
 ## Required Reading
 
 Before starting, read these files:
-1. `../skills/frontend-design-audit/SKILL.md` — The evaluation framework and workflow
-2. `../skills/frontend-design-audit/references/heuristics.md` — Detailed principle definitions and what to look for
+1. `../SKILL.md` — The evaluation framework and workflow
+2. `../references/heuristics.md` — Detailed principle definitions and what to look for
 
 ## Usage
 
