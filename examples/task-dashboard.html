@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow — Project Management</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #1a1a2e; }
+
+    /* Visually hidden utility */
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* [Fix #12] Global focus-visible styles */
+    :focus-visible {
+      outline: 2px solid #7c5cfc;
+      outline-offset: 2px;
+    }
+
+    /* [Fix #19] Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0; width: 240px;
+      background: #1a1a2e; color: white; padding: 1.5rem 0;
+      overflow-y: auto; z-index: 50;
+      transition: transform 0.3s;
+    }
+    .sidebar-logo { padding: 0 1.5rem; font-size: 1.3rem; font-weight: 700; margin-bottom: 2rem; color: #7c5cfc; }
+    .sidebar-nav { list-style: none; }
+    .sidebar-nav li a {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.75rem 1.5rem; color: #a0a0b8; text-decoration: none;
+      font-size: 0.9rem; transition: all 0.2s;
+    }
+    .sidebar-nav li a:hover { background: rgba(124, 92, 252, 0.1); color: white; }
+    .sidebar-nav li a.active { background: rgba(124, 92, 252, 0.15); color: #7c5cfc; border-right: 3px solid #7c5cfc; }
+    .sidebar-nav li a .icon { width: 20px; text-align: center; }
+    /* [Fix #22] Sidebar section labels: #555 → #9999a8 for 4.5:1 contrast */
+    .sidebar-section { padding: 0 1.5rem; margin-top: 2rem; margin-bottom: 0.75rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: #9999a8; }
+
+    /* Main Content */
+    .main { margin-left: 240px; }
+
+    /* Header */
+    .header {
+      background: white; padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
+    .header h1 { font-size: 1.4rem; }
+    .header-actions { display: flex; align-items: center; gap: 1rem; }
+    /* [Fix #12] Removed outline: none */
+    .search-box {
+      padding: 8px 16px; border: 1px solid #e5e7eb; border-radius: 8px;
+      font-size: 0.9rem; width: 280px;
+    }
+    .search-box:focus { border-color: #7c5cfc; }
+    /* [Fix #13] Avatar is now a <button> */
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #7c5cfc; color: white; display: flex;
+      align-items: center; justify-content: center;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      border: none; padding: 0;
+    }
+    .notification-btn {
+      background: none; border: none; font-size: 1.2rem;
+      cursor: pointer; position: relative; padding: 4px;
+    }
+    .notification-badge {
+      position: absolute; top: -2px; right: -2px;
+      background: #ef4444; color: white; font-size: 0.6rem;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Stats Cards */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 2rem; }
+    .stat-card {
+      background: white; padding: 1.5rem; border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .stat-card .label { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card .value { font-size: 2rem; font-weight: 700; margin: 0.5rem 0; }
+    .stat-card .change { font-size: 0.85rem; }
+    .stat-card .change.up { color: #10b981; }
+    .stat-card .change.down { color: #ef4444; }
+
+    /* Kanban Board */
+    .board-header { padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .board-header h2 { font-size: 1.2rem; }
+    .board-actions { display: flex; gap: 0.75rem; }
+    .board-actions > button, .board-actions > .dropdown-container > button {
+      padding: 8px 16px; border-radius: 8px; font-size: 0.85rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary { background: #7c5cfc; color: white; border: none; }
+    .btn-primary:hover { background: #6a4ce0; }
+    .btn-secondary { background: white; border: 1px solid #e5e7eb; color: #333; }
+    .btn-secondary:hover { background: #f9fafb; }
+
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 0 2rem 2rem; }
+    .column { background: #f8f9fb; border-radius: 12px; padding: 1rem; min-height: 400px; }
+    .column.drag-over { background: #eef0ff; outline: 2px dashed #7c5cfc; }
+    .column-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 2px solid;
+    }
+    .column-header h3 { font-size: 0.9rem; font-weight: 600; }
+    .column-header .count {
+      background: rgba(0,0,0,0.06); padding: 2px 8px; border-radius: 10px;
+      font-size: 0.75rem; color: #666;
+    }
+    .col-todo .column-header { border-color: #94a3b8; }
+    .col-progress .column-header { border-color: #7c5cfc; }
+    .col-review .column-header { border-color: #f59e0b; }
+    .col-done .column-header { border-color: #10b981; }
+
+    /* [Fix #17] Task cards: tabindex, role, aria-label added in HTML */
+    .task-card {
+      background: white; border-radius: 8px; padding: 1rem;
+      margin-bottom: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      cursor: grab; transition: box-shadow 0.2s, opacity 0.2s;
+    }
+    .task-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .task-card.dragging { opacity: 0.5; }
+    .task-card .task-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .task-card .task-desc { font-size: 0.8rem; color: #888; line-height: 1.4; margin-bottom: 0.75rem; }
+    .task-card .task-meta { display: flex; justify-content: space-between; align-items: center; }
+    .task-tag {
+      font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
+      font-weight: 500;
+    }
+    .tag-design { background: #ede9fe; color: #7c3aed; }
+    .tag-dev { background: #dbeafe; color: #2563eb; }
+    .tag-bug { background: #fee2e2; color: #dc2626; }
+    .tag-feature { background: #d1fae5; color: #059669; }
+    .task-assignee {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #e5e7eb; font-size: 0.65rem; display: flex;
+      align-items: center; justify-content: center; font-weight: 600;
+    }
+    /* [Fix #9] Priority: icons (▲/●/—) added to text for non-color cue */
+    .task-priority { font-size: 0.75rem; font-weight: 600; }
+    .priority-high { color: #ef4444; }
+    .priority-medium { color: #f59e0b; }
+    .priority-low { color: #10b981; }
+
+    /* Modal [Fix #3, #4, #6] */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5); z-index: 1000;
+      justify-content: center; align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: white; border-radius: 16px; padding: 2rem;
+      width: 500px; max-width: 90vw; position: relative;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .modal-header h2 { margin: 0; }
+    /* [Fix #20] Close/X button in modal header */
+    .modal-close-btn {
+      background: none; border: none; font-size: 1.5rem;
+      cursor: pointer; padding: 4px 8px; color: #999;
+      line-height: 1; border-radius: 4px;
+    }
+    .modal-close-btn:hover { background: #f3f4f6; color: #333; }
+    .modal label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.25rem; color: #555; }
+    /* [Fix #12] Removed outline: none from modal inputs */
+    .modal input, .modal select, .modal textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid #e5e7eb;
+      border-radius: 8px; font-size: 0.9rem; margin-bottom: 1rem;
+      font-family: inherit;
+    }
+    .modal input:focus, .modal select:focus, .modal textarea:focus { border-color: #7c5cfc; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem; }
+
+    /* [Fix #5] Success toast */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: #10b981; color: white; padding: 1rem 1.5rem;
+      border-radius: 8px; font-size: 0.9rem; font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(100px); opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      z-index: 2000;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* [Fix #16] Filter/Sort dropdowns */
+    .dropdown-container { position: relative; display: inline-block; }
+    .dropdown-menu {
+      display: none; position: absolute; top: 100%; right: 0;
+      background: white; border: 1px solid #e5e7eb; border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 160px;
+      z-index: 100; margin-top: 4px;
+    }
+    .dropdown-menu.open { display: block; }
+    .dropdown-menu button {
+      display: block; width: 100%; text-align: left;
+      padding: 8px 16px; border: none; background: none;
+      font-size: 0.85rem; cursor: pointer; color: #333;
+    }
+    .dropdown-menu button:hover { background: #f3f4f6; }
+    .dropdown-menu button.active-filter { color: #7c5cfc; font-weight: 600; }
+
+    /* Activity Feed */
+    .activity { padding: 0 2rem 2rem; }
+    .activity h2 { font-size: 1.2rem; margin-bottom: 1rem; }
+    .activity-list { background: white; border-radius: 12px; overflow: hidden; }
+    .activity-item {
+      padding: 1rem 1.5rem; border-bottom: 1px solid #f3f4f6;
+      display: flex; align-items: center; gap: 1rem; font-size: 0.9rem;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green { background: #10b981; }
+    .dot-blue { background: #7c5cfc; }
+    .dot-yellow { background: #f59e0b; }
+    .activity-time { color: #999; font-size: 0.8rem; margin-left: auto; white-space: nowrap; }
+
+    /* [Fix #15] Responsive layout */
+    .sidebar-toggle {
+      display: none; background: none; border: none;
+      font-size: 1.5rem; cursor: pointer; padding: 4px;
+    }
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4); z-index: 40;
+    }
+    .sidebar-overlay.open { display: block; }
+    @media (max-width: 1024px) {
+      .board { grid-template-columns: repeat(2, 1fr); }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); z-index: 200; }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .sidebar-toggle { display: block; }
+      .board { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .column { min-height: 200px; }
+      .search-box { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- [Fix #15] Sidebar overlay for mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">TaskFlow</div>
+  <div class="sidebar-section">Main</div>
+  <ul class="sidebar-nav">
+    <li><a href="#" class="active"><span class="icon">&#9632;</span> Dashboard</a></li>
+    <li><a href="#"><span class="icon">&#9998;</span> My Tasks</a></li>
+    <li><a href="#"><span class="icon">&#128197;</span> Calendar</a></li>
+    <li><a href="#"><span class="icon">&#128200;</span> Reports</a></li>
+  </ul>
+  <div class="sidebar-section">Projects</div>
+  <ul class="sidebar-nav">
+    <li><a href="#"><span class="icon" style="color:#7c5cfc;">&#9679;</span> Website Redesign</a></li>
+    <li><a href="#"><span class="icon" style="color:#10b981;">&#9679;</span> Mobile App v2</a></li>
+    <li><a href="#"><span class="icon" style="color:#f59e0b;">&#9679;</span> API Integration</a></li>
+  </ul>
+  <div class="sidebar-section">Team</div>
+  <ul class="sidebar-nav">
+    <li><a href="#"><span class="icon">&#128101;</span> Members</a></li>
+    <li><a href="#"><span class="icon">&#9881;</span> Settings</a></li>
+  </ul>
+</aside>
+
+<!-- [Fix #10] <main> instead of <div> -->
+<main class="main">
+  <!-- [Fix #11] <header> instead of <div> -->
+  <header class="header">
+    <div class="header-left">
+      <!-- [Fix #15] Mobile sidebar toggle -->
+      <button class="sidebar-toggle" aria-label="Open navigation menu" onclick="openSidebar()">&#9776;</button>
+      <h1>Website Redesign</h1>
+    </div>
+    <div class="header-actions">
+      <!-- [Fix #8] Search input with associated label -->
+      <label for="search-tasks" class="visually-hidden">Search tasks</label>
+      <input type="text" id="search-tasks" class="search-box" placeholder="Search tasks...">
+      <!-- [Fix #7] Notification button with aria-label -->
+      <button class="notification-btn" aria-label="Notifications, 3 unread">
+        &#128276;
+        <span class="notification-badge" aria-hidden="true">3</span>
+      </button>
+      <!-- [Fix #13] Avatar as <button> with aria-label -->
+      <button class="avatar" aria-label="User menu, John Doe">JD</button>
+    </div>
+  </header>
+
+  <!-- [Fix #21] Visually hidden heading for stats section -->
+  <h2 class="visually-hidden">Project Overview</h2>
+  <div class="stats">
+    <div class="stat-card">
+      <div class="label">Total Tasks</div>
+      <div class="value">24</div>
+      <div class="change up">+3 this week</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">In Progress</div>
+      <div class="value">8</div>
+      <div class="change up">+2 from last week</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Completed</div>
+      <div class="value">12</div>
+      <div class="change up">+5 this week</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Overdue</div>
+      <div class="value" style="color: #ef4444;">3</div>
+      <div class="change down">+1 from last week</div>
+    </div>
+  </div>
+
+  <div class="board-header">
+    <h2>Sprint Board</h2>
+    <div class="board-actions">
+      <!-- [Fix #16] Filter/Sort with functional dropdowns -->
+      <div class="dropdown-container">
+        <button class="btn-secondary" onclick="toggleDropdown('filterMenu')" aria-haspopup="true" aria-expanded="false">Filter</button>
+        <div class="dropdown-menu" id="filterMenu" role="menu">
+          <button role="menuitem" class="active-filter" onclick="filterTasks('all')">All Tasks</button>
+          <button role="menuitem" onclick="filterTasks('design')">Design</button>
+          <button role="menuitem" onclick="filterTasks('dev')">Development</button>
+          <button role="menuitem" onclick="filterTasks('bug')">Bug Fix</button>
+          <button role="menuitem" onclick="filterTasks('feature')">Content</button>
+        </div>
+      </div>
+      <div class="dropdown-container">
+        <button class="btn-secondary" onclick="toggleDropdown('sortMenu')" aria-haspopup="true" aria-expanded="false">Sort</button>
+        <div class="dropdown-menu" id="sortMenu" role="menu">
+          <button role="menuitem" class="active-filter" onclick="sortTasks('default')">Default</button>
+          <button role="menuitem" onclick="sortTasks('priority')">By Priority</button>
+          <button role="menuitem" onclick="sortTasks('title')">By Title</button>
+        </div>
+      </div>
+      <button class="btn-primary" id="addTaskBtn" onclick="openModal()">+ Add Task</button>
+    </div>
+  </div>
+
+  <!-- [Fix #1] Real drag-and-drop with dragover/drop on columns -->
+  <div class="board" role="region" aria-label="Kanban board">
+    <div class="column col-todo" data-column="todo">
+      <div class="column-header">
+        <h3>To Do</h3>
+        <span class="count">4</span>
+      </div>
+      <!-- [Fix #17] tabindex, role, aria-label on task cards -->
+      <!-- [Fix #9] Priority uses icons: ▲ High, ● Med, — Low -->
+      <div class="task-card" tabindex="0" role="button" aria-label="Redesign navigation header — High priority, Design" draggable="true">
+        <div class="task-title">Redesign navigation header</div>
+        <div class="task-desc">Update nav to match new brand guidelines with mega-menu</div>
+        <div class="task-meta">
+          <span class="task-tag tag-design">Design</span>
+          <span class="task-priority priority-high" aria-label="High priority">&#9650; High</span>
+          <div class="task-assignee" aria-label="Assigned to Anna Kim">AK</div>
+        </div>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Create color palette documentation — Medium priority, Design" draggable="true">
+        <div class="task-title">Create color palette documentation</div>
+        <div class="task-desc">Document all design tokens for the new brand</div>
+        <div class="task-meta">
+          <span class="task-tag tag-design">Design</span>
+          <span class="task-priority priority-medium" aria-label="Medium priority">&#9679; Med</span>
+          <div class="task-assignee" aria-label="Assigned to Sam Chen">SC</div>
+        </div>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Set up analytics tracking — Low priority, Dev" draggable="true">
+        <div class="task-title">Set up analytics tracking</div>
+        <div class="task-desc">Implement GA4 events for key user flows</div>
+        <div class="task-meta">
+          <span class="task-tag tag-dev">Dev</span>
+          <span class="task-priority priority-low" aria-label="Low priority">&mdash; Low</span>
+          <div class="task-assignee" aria-label="Assigned to Mike Ross">MR</div>
+        </div>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Write copy for About page — Medium priority, Content" draggable="true">
+        <div class="task-title">Write copy for About page</div>
+        <div class="task-meta">
+          <span class="task-tag tag-feature">Content</span>
+          <span class="task-priority priority-medium" aria-label="Medium priority">&#9679; Med</span>
+          <div class="task-assignee" aria-label="Assigned to John Doe">JD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column col-progress" data-column="progress">
+      <div class="column-header">
+        <h3>In Progress</h3>
+        <span class="count">3</span>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Build responsive product grid — High priority, Dev" draggable="true">
+        <div class="task-title">Build responsive product grid</div>
+        <div class="task-desc">Implement masonry grid with lazy loading for product images</div>
+        <div class="task-meta">
+          <span class="task-tag tag-dev">Dev</span>
+          <span class="task-priority priority-high" aria-label="High priority">&#9650; High</span>
+          <div class="task-assignee" aria-label="Assigned to John Doe">JD</div>
+        </div>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Design mobile checkout flow — High priority, Design" draggable="true">
+        <div class="task-title">Design mobile checkout flow</div>
+        <div class="task-desc">3-step checkout optimized for mobile conversion</div>
+        <div class="task-meta">
+          <span class="task-tag tag-design">Design</span>
+          <span class="task-priority priority-high" aria-label="High priority">&#9650; High</span>
+          <div class="task-assignee" aria-label="Assigned to Anna Kim">AK</div>
+        </div>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Fix cart total calculation bug — High priority, Bug" draggable="true">
+        <div class="task-title">Fix cart total calculation bug</div>
+        <div class="task-desc">Discount codes not applying correctly to subtotal</div>
+        <div class="task-meta">
+          <span class="task-tag tag-bug">Bug</span>
+          <span class="task-priority priority-high" aria-label="High priority">&#9650; High</span>
+          <div class="task-assignee" aria-label="Assigned to Mike Ross">MR</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column col-review" data-column="review">
+      <div class="column-header">
+        <h3>In Review</h3>
+        <span class="count">2</span>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Homepage hero animation — Medium priority, Dev" draggable="true">
+        <div class="task-title">Homepage hero animation</div>
+        <div class="task-desc">Lottie animation for hero section with fallback image</div>
+        <div class="task-meta">
+          <span class="task-tag tag-dev">Dev</span>
+          <span class="task-priority priority-medium" aria-label="Medium priority">&#9679; Med</span>
+          <div class="task-assignee" aria-label="Assigned to Sam Chen">SC</div>
+        </div>
+      </div>
+      <div class="task-card" tabindex="0" role="button" aria-label="Update privacy policy page — Low priority, Content" draggable="true">
+        <div class="task-title">Update privacy policy page</div>
+        <div class="task-meta">
+          <span class="task-tag tag-feature">Content</span>
+          <span class="task-priority priority-low" aria-label="Low priority">&mdash; Low</span>
+          <div class="task-assignee" aria-label="Assigned to John Doe">JD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column col-done" data-column="done">
+      <div class="column-header">
+        <h3>Done</h3>
+        <span class="count">3</span>
+      </div>
+      <div class="task-card" style="opacity: 0.7;" tabindex="0" role="button" aria-label="Set up CI/CD pipeline — Dev, completed" draggable="true">
+        <div class="task-title">Set up CI/CD pipeline</div>
+        <div class="task-meta">
+          <span class="task-tag tag-dev">Dev</span>
+          <div class="task-assignee" aria-label="Assigned to Mike Ross">MR</div>
+        </div>
+      </div>
+      <div class="task-card" style="opacity: 0.7;" tabindex="0" role="button" aria-label="Design system foundations — Design, completed" draggable="true">
+        <div class="task-title">Design system foundations</div>
+        <div class="task-meta">
+          <span class="task-tag tag-design">Design</span>
+          <div class="task-assignee" aria-label="Assigned to Anna Kim">AK</div>
+        </div>
+      </div>
+      <div class="task-card" style="opacity: 0.7;" tabindex="0" role="button" aria-label="Migrate hosting to Vercel — Dev, completed" draggable="true">
+        <div class="task-title">Migrate hosting to Vercel</div>
+        <div class="task-meta">
+          <span class="task-tag tag-dev">Dev</span>
+          <div class="task-assignee" aria-label="Assigned to Sam Chen">SC</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <h2>Recent Activity</h2>
+    <div class="activity-list">
+      <!-- [Fix #14] Activity dots: aria-hidden since text conveys meaning -->
+      <div class="activity-item">
+        <div class="activity-dot dot-green" aria-hidden="true"></div>
+        <span><strong>MR</strong> completed "Migrate hosting to Vercel"</span>
+        <span class="activity-time">2 hours ago</span>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot dot-blue" aria-hidden="true"></div>
+        <span><strong>AK</strong> moved "Homepage hero animation" to Review</span>
+        <span class="activity-time">4 hours ago</span>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot dot-yellow" aria-hidden="true"></div>
+        <span><strong>JD</strong> added comment on "Fix cart total calculation bug"</span>
+        <span class="activity-time">5 hours ago</span>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot dot-green" aria-hidden="true"></div>
+        <span><strong>SC</strong> completed "Design system foundations"</span>
+        <span class="activity-time">Yesterday</span>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot dot-blue" aria-hidden="true"></div>
+        <span><strong>JD</strong> created "Write copy for About page"</span>
+        <span class="activity-time">Yesterday</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- [Fix #2,3,4,6,20] Modal with role, aria-modal, aria-labelledby, Escape, focus trap, close button -->
+<div class="modal-overlay" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">Add New Task</h2>
+      <button class="modal-close-btn" onclick="closeModal()" aria-label="Close">&times;</button>
+    </div>
+    <!-- [Fix #6] Form labels with for/id associations -->
+    <form id="addTaskForm" onsubmit="addTask(event)">
+      <label for="task-title">Task Title</label>
+      <input type="text" id="task-title" placeholder="What needs to be done?" required>
+      <label for="task-desc">Description</label>
+      <textarea id="task-desc" rows="3" placeholder="Add details..."></textarea>
+      <label for="task-assignee">Assignee</label>
+      <select id="task-assignee">
+        <option value="">Unassigned</option>
+        <option value="JD">JD — John Doe</option>
+        <option value="AK">AK — Anna Kim</option>
+        <option value="SC">SC — Sam Chen</option>
+        <option value="MR">MR — Mike Ross</option>
+      </select>
+      <label for="task-priority">Priority</label>
+      <select id="task-priority">
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="low">Low</option>
+      </select>
+      <label for="task-category">Category</label>
+      <select id="task-category">
+        <option value="dev">Development</option>
+        <option value="design">Design</option>
+        <option value="bug">Bug Fix</option>
+        <option value="feature">Content</option>
+      </select>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <!-- [Fix #18] Button gets disabled during submission -->
+        <button type="submit" class="btn-primary" id="createTaskBtn">Create Task</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- [Fix #5] Toast for form submission feedback -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // ===== Modal: Escape key, focus trap, focus management =====
+  const modal = document.getElementById('taskModal');
+  const addTaskBtn = document.getElementById('addTaskBtn');
+
+  function openModal() {
+    modal.classList.add('active');
+    // Move focus to first input
+    const firstInput = modal.querySelector('input, select, textarea');
+    if (firstInput) setTimeout(() => firstInput.focus(), 50);
+    document.addEventListener('keydown', modalKeyHandler);
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.removeEventListener('keydown', modalKeyHandler);
+    // Return focus to trigger button
+    addTaskBtn.focus();
+    // Re-enable submit button
+    document.getElementById('createTaskBtn').disabled = false;
+  }
+
+  function modalKeyHandler(e) {
+    if (e.key === 'Escape') {
+      closeModal();
+      return;
+    }
+    // Focus trap: loop Tab within modal
+    if (e.key === 'Tab') {
+      const focusable = modal.querySelectorAll('input, select, textarea, button');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  // Close modal on overlay click
+  modal.addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ===== Form submission: create task card + show toast =====
+  function addTask(e) {
+    e.preventDefault();
+    const submitBtn = document.getElementById('createTaskBtn');
+    submitBtn.disabled = true; // Prevent double-submission
+
+    const title = document.getElementById('task-title').value;
+    const desc = document.getElementById('task-desc').value;
+    const assignee = document.getElementById('task-assignee').value || '—';
+    const priority = document.getElementById('task-priority').value;
+    const category = document.getElementById('task-category').value;
+
+    const priorityMap = {
+      high: { cls: 'priority-high', label: '▲ High' },
+      medium: { cls: 'priority-medium', label: '● Med' },
+      low: { cls: 'priority-low', label: '— Low' }
+    };
+    const pri = priorityMap[priority];
+
+    const tagMap = {
+      dev: { cls: 'tag-dev', label: 'Dev' },
+      design: { cls: 'tag-design', label: 'Design' },
+      bug: { cls: 'tag-bug', label: 'Bug' },
+      feature: { cls: 'tag-feature', label: 'Content' }
+    };
+    const tag = tagMap[category];
+
+    // Build new task card
+    const card = document.createElement('div');
+    card.className = 'task-card';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', title + ' — ' + pri.label + ' priority, ' + tag.label);
+    card.draggable = true;
+
+    let descHtml = desc ? '<div class="task-desc">' + escapeHtml(desc) + '</div>' : '';
+    card.innerHTML =
+      '<div class="task-title">' + escapeHtml(title) + '</div>' +
+      descHtml +
+      '<div class="task-meta">' +
+        '<span class="task-tag ' + tag.cls + '">' + tag.label + '</span>' +
+        '<span class="task-priority ' + pri.cls + '" aria-label="' + pri.label + ' priority">' + pri.label + '</span>' +
+        '<div class="task-assignee" aria-label="Assigned to ' + escapeHtml(assignee) + '">' + escapeHtml(assignee) + '</div>' +
+      '</div>';
+
+    setupDragForCard(card);
+
+    // Add to To Do column
+    document.querySelector('.col-todo').appendChild(card);
+    updateColumnCounts();
+
+    document.getElementById('addTaskForm').reset();
+    closeModal();
+    showToast('Task "' + title + '" created successfully');
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ===== Toast =====
+  function showToast(message) {
+    var toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 3000);
+  }
+
+  // ===== Drag and Drop =====
+  var draggedCard = null;
+
+  function setupDragForCard(card) {
+    card.addEventListener('dragstart', function(e) {
+      draggedCard = card;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    card.addEventListener('dragend', function() {
+      card.classList.remove('dragging');
+      draggedCard = null;
+      document.querySelectorAll('.column').forEach(function(col) { col.classList.remove('drag-over'); });
+      updateColumnCounts();
+    });
+  }
+
+  // Set up drag on existing cards
+  document.querySelectorAll('.task-card').forEach(function(card) {
+    card.draggable = true;
+    setupDragForCard(card);
+  });
+
+  // Drop targets on columns
+  document.querySelectorAll('.column').forEach(function(column) {
+    column.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      column.classList.add('drag-over');
+    });
+    column.addEventListener('dragleave', function(e) {
+      if (!column.contains(e.relatedTarget)) {
+        column.classList.remove('drag-over');
+      }
+    });
+    column.addEventListener('drop', function(e) {
+      e.preventDefault();
+      column.classList.remove('drag-over');
+      if (draggedCard && draggedCard.parentElement !== column) {
+        column.appendChild(draggedCard);
+        updateColumnCounts();
+        var colName = column.querySelector('h3').textContent;
+        showToast('Task moved to "' + colName + '"');
+      }
+    });
+  });
+
+  function updateColumnCounts() {
+    document.querySelectorAll('.column').forEach(function(col) {
+      var count = col.querySelectorAll('.task-card').length;
+      var badge = col.querySelector('.count');
+      if (badge) badge.textContent = count;
+    });
+  }
+
+  // ===== Keyboard support for task cards =====
+  document.addEventListener('keydown', function(e) {
+    var card = document.activeElement;
+    if (!card || !card.classList.contains('task-card')) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      var title = card.querySelector('.task-title').textContent;
+      showToast('Selected: "' + title + '" — drag to move between columns');
+    }
+  });
+
+  // ===== Filter/Sort dropdowns =====
+  function toggleDropdown(id) {
+    var menu = document.getElementById(id);
+    var wasOpen = menu.classList.contains('open');
+    document.querySelectorAll('.dropdown-menu').forEach(function(m) { m.classList.remove('open'); });
+    if (!wasOpen) menu.classList.add('open');
+    var btn = menu.previousElementSibling;
+    btn.setAttribute('aria-expanded', !wasOpen);
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown-container')) {
+      document.querySelectorAll('.dropdown-menu').forEach(function(m) { m.classList.remove('open'); });
+      document.querySelectorAll('.dropdown-container button[aria-expanded]').forEach(function(btn) {
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  function filterTasks(category) {
+    document.querySelectorAll('.task-card').forEach(function(card) {
+      if (category === 'all') { card.style.display = ''; return; }
+      var tag = card.querySelector('.task-tag');
+      var match = tag && tag.className.indexOf('tag-' + category) !== -1;
+      card.style.display = match ? '' : 'none';
+    });
+    document.querySelectorAll('#filterMenu button').forEach(function(btn) { btn.classList.remove('active-filter'); });
+    event.target.classList.add('active-filter');
+    document.getElementById('filterMenu').classList.remove('open');
+  }
+
+  function sortTasks(mode) {
+    document.querySelectorAll('.column').forEach(function(col) {
+      var cards = Array.from(col.querySelectorAll('.task-card'));
+      if (mode === 'priority') {
+        var order = { 'priority-high': 0, 'priority-medium': 1, 'priority-low': 2 };
+        cards.sort(function(a, b) {
+          var aP = a.querySelector('.task-priority');
+          var bP = b.querySelector('.task-priority');
+          var aVal = 3, bVal = 3;
+          if (aP) { for (var c of aP.classList) { if (order[c] !== undefined) aVal = order[c]; } }
+          if (bP) { for (var c of bP.classList) { if (order[c] !== undefined) bVal = order[c]; } }
+          return aVal - bVal;
+        });
+      } else if (mode === 'title') {
+        cards.sort(function(a, b) {
+          return a.querySelector('.task-title').textContent.localeCompare(b.querySelector('.task-title').textContent);
+        });
+      }
+      cards.forEach(function(card) { col.appendChild(card); });
+    });
+    document.querySelectorAll('#sortMenu button').forEach(function(btn) { btn.classList.remove('active-filter'); });
+    event.target.classList.add('active-filter');
+    document.getElementById('sortMenu').classList.remove('open');
+  }
+
+  // ===== Responsive sidebar =====
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  }
+</script>
+
+</body>
+</html>

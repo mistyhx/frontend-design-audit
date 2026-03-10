@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Brew & Bean</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Georgia, serif; color: #333; }
+
+    /* Navigation */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      background: rgba(45, 30, 15, 0.95); padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 100;
+    }
+    .logo { color: #d4a574; font-size: 1.5rem; font-weight: bold; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    .nav-links a:hover { color: #d4a574; }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600');
+      background-size: cover; background-position: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; color: white; padding: 0 1rem;
+    }
+    .hero h1 { font-size: 4rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; color: #ccc; max-width: 600px; margin-bottom: 2rem; }
+    .btn {
+      display: inline-block; padding: 14px 32px;
+      background: #d4a574; color: white; text-decoration: none;
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;
+      transition: all 0.3s;
+    }
+    .btn:hover { background: #c49464; transform: translateY(-2px); }
+
+    /* Menu Section */
+    .menu { padding: 6rem 2rem; background: #faf7f2; }
+    .menu h2 { text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .menu .subtitle { text-align: center; color: #999; margin-bottom: 3rem; }
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2rem; max-width: 1200px; margin: 0 auto;
+    }
+    .menu-card {
+      background: white; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .menu-card:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+    .menu-card img { width: 100%; height: 220px; object-fit: cover; }
+    .menu-card .info { padding: 1.5rem; }
+    .menu-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .menu-card .price { color: #d4a574; font-size: 1.1rem; font-weight: bold; }
+    .menu-card .desc { color: #888; font-size: 0.9rem; margin-top: 0.5rem; line-height: 1.5; }
+
+    /* About Section */
+    .about {
+      padding: 6rem 2rem; max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .about img { width: 100%; border-radius: 12px; }
+    .about h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .about p { color: #666; line-height: 1.8; margin-bottom: 1rem; }
+
+    /* Testimonials */
+    .testimonials { padding: 6rem 2rem; background: #2d1e0f; color: white; }
+    .testimonials h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
+    .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+    .testimonial { background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; }
+    .testimonial .stars { color: #d4a574; font-size: 1.2rem; margin-bottom: 1rem; }
+    .testimonial p { color: #ccc; line-height: 1.7; font-style: italic; margin-bottom: 1rem; }
+    .testimonial .author { color: #d4a574; font-weight: bold; }
+
+    /* Order Form */
+    .order { padding: 6rem 2rem; background: #faf7f2; }
+    .order h2 { text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .order .subtitle { text-align: center; color: #999; margin-bottom: 3rem; }
+    .order-form { max-width: 600px; margin: 0 auto; }
+    .order-form input, .order-form select, .order-form textarea {
+      width: 100%; padding: 14px; margin-bottom: 1rem; border: 1px solid #ddd;
+      border-radius: 8px; font-size: 1rem; font-family: Georgia, serif;
+      outline: none;
+    }
+    .order-form input:focus, .order-form select:focus, .order-form textarea:focus {
+      border-color: #d4a574;
+    }
+    .order-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Footer */
+    footer {
+      background: #1a1108; color: #999; padding: 3rem 2rem;
+      text-align: center;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
+    .footer-links a { color: #999; text-decoration: none; }
+    .footer-links a:hover { color: #d4a574; }
+    .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .social-icons a {
+      width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: #999; text-decoration: none; font-size: 0.8rem;
+      transition: background 0.3s;
+    }
+    .social-icons a:hover { background: #d4a574; color: white; }
+
+    /* Mobile */
+    .mobile-toggle { display: none; background: none; border: none; color: #d4a574; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .menu-grid, .testimonial-grid { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+      .order-form .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Brew & Bean</div>
+  <button class="mobile-toggle" onclick="toggleMenu()">&#9776;</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#order">Order</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <h1>Brew & Bean</h1>
+  <p>Artisan coffee crafted with passion. Every cup tells a story of carefully sourced beans and expert roasting.</p>
+  <a href="#menu" class="btn">Explore Our Menu</a>
+</section>
+
+<section class="menu" id="menu">
+  <h2>Our Menu</h2>
+  <p class="subtitle">Handcrafted drinks made fresh daily</p>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600">
+      <div class="info">
+        <h3>Classic Espresso</h3>
+        <div class="price">$4.50</div>
+        <p class="desc">Rich, bold, and perfectly extracted. Our signature blend from Ethiopian highlands.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600">
+      <div class="info">
+        <h3>Vanilla Oat Latte</h3>
+        <div class="price">$6.00</div>
+        <p class="desc">Silky oat milk meets house-made vanilla syrup. A crowd favorite for good reason.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600">
+      <div class="info">
+        <h3>Matcha Cloud</h3>
+        <div class="price">$5.75</div>
+        <p class="desc">Ceremonial grade matcha whipped with cold foam. Earthy, creamy, and refreshing.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600">
+      <div class="info">
+        <h3>Cold Brew Reserve</h3>
+        <div class="price">$5.50</div>
+        <p class="desc">Slow-steeped for 20 hours. Smooth, naturally sweet, and impossibly refreshing.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1514066558159-fc8c737ef259?w=600">
+      <div class="info">
+        <h3>Honey Cinnamon Cappuccino</h3>
+        <div class="price">$5.25</div>
+        <p class="desc">Local wildflower honey and Ceylon cinnamon over our signature cappuccino.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600">
+      <div class="info">
+        <h3>Lavender Mocha</h3>
+        <div class="price">$6.25</div>
+        <p class="desc">French lavender meets Belgian chocolate. Unexpected harmony in every sip.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800">
+  <div>
+    <h2>Our Story</h2>
+    <p>Founded in 2018, Brew & Bean started as a small cart at the local farmers market. What began as a weekend passion project quickly grew into something more — a community gathering spot where great coffee meets great conversation.</p>
+    <p>We source our beans directly from small-scale farmers in Ethiopia, Colombia, and Guatemala. Every batch is roasted in-house weekly to ensure peak freshness. We believe that exceptional coffee starts with exceptional relationships.</p>
+    <a href="#order" class="btn">Order Now</a>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <h2>What People Say</h2>
+  <div class="testimonial-grid">
+    <div class="testimonial">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p>"Best coffee in the city, hands down. The cold brew changed my morning routine forever."</p>
+      <div class="author">Sarah M.</div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p>"The atmosphere is incredible. I come here every day to work and the staff remembers my order."</p>
+      <div class="author">James K.</div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p>"Finally a coffee shop that takes oat milk seriously. The vanilla oat latte is perfection."</p>
+      <div class="author">Maria L.</div>
+    </div>
+  </div>
+</section>
+
+<section class="order" id="order">
+  <h2>Place an Order</h2>
+  <p class="subtitle">Skip the line — order ahead for pickup</p>
+  <form class="order-form" onsubmit="submitOrder(event)">
+    <div class="row">
+      <input type="text" placeholder="First Name" required>
+      <input type="text" placeholder="Last Name" required>
+    </div>
+    <input type="text" placeholder="Email Address" required>
+    <input type="text" placeholder="Phone Number">
+    <select required>
+      <option value="">Select Your Drink</option>
+      <option>Classic Espresso — $4.50</option>
+      <option>Vanilla Oat Latte — $6.00</option>
+      <option>Matcha Cloud — $5.75</option>
+      <option>Cold Brew Reserve — $5.50</option>
+      <option>Honey Cinnamon Cappuccino — $5.25</option>
+      <option>Lavender Mocha — $6.25</option>
+    </select>
+    <select>
+      <option value="">Milk Preference</option>
+      <option>Whole Milk</option>
+      <option>Oat Milk (+$0.75)</option>
+      <option>Almond Milk (+$0.75)</option>
+      <option>Soy Milk (+$0.50)</option>
+      <option>No Milk</option>
+    </select>
+    <textarea rows="3" placeholder="Special instructions (allergies, modifications, etc.)"></textarea>
+    <button type="submit" class="btn" style="width:100%; text-align:center; border:none; cursor:pointer;">Place Order</button>
+  </form>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Careers</a>
+    <a href="#">Gift Cards</a>
+  </div>
+  <div class="social-icons">
+    <a href="#">FB</a>
+    <a href="#">IG</a>
+    <a href="#">TW</a>
+  </div>
+  <p>&copy; 2024 Brew & Bean Coffee Co. All rights reserved.</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  function submitOrder(e) {
+    e.preventDefault();
+    alert('Order placed successfully! We\'ll have it ready in 10-15 minutes.');
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CloudSync — Sync your files across all devices">
+  <meta property="og:title" content="CloudSync Pricing">
+  <title>CloudSync — Plans & Pricing</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #0f172a; background: #ffffff; }
+
+    /* Navigation */
+    header {
+      padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #0f172a; text-decoration: none; }
+    .logo span { color: #6366f1; }
+    nav { display: flex; align-items: center; gap: 2rem; }
+    nav a { color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    nav a:hover { color: #0f172a; }
+    .nav-cta {
+      background: #6366f1; color: white; padding: 8px 20px; border-radius: 8px;
+      font-weight: 600; font-size: 0.9rem; text-decoration: none;
+    }
+    .nav-cta:hover { background: #4f46e5; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 5rem 2rem 3rem; max-width: 700px; margin: 0 auto; }
+    .hero .badge {
+      display: inline-block; background: #eef2ff; color: #6366f1;
+      padding: 6px 16px; border-radius: 20px; font-size: 0.8rem;
+      font-weight: 600; margin-bottom: 1.5rem;
+    }
+    .hero h1 { font-size: 3.2rem; line-height: 1.15; margin-bottom: 1rem; font-weight: 800; }
+    .hero p { font-size: 1.15rem; color: #64748b; line-height: 1.6; }
+
+    /* Toggle */
+    .toggle-container { display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 3rem 0; }
+    .toggle-label { font-size: 0.95rem; font-weight: 500; color: #64748b; }
+    .toggle-label.active { color: #0f172a; }
+    .toggle {
+      width: 56px; height: 28px; background: #e2e8f0; border-radius: 14px;
+      position: relative; cursor: pointer; transition: background 0.3s;
+    }
+    .toggle.active { background: #6366f1; }
+    .toggle::after {
+      content: ''; position: absolute; width: 22px; height: 22px;
+      background: white; border-radius: 50%; top: 3px; left: 3px;
+      transition: transform 0.3s;
+    }
+    .toggle.active::after { transform: translateX(28px); }
+    .save-badge { background: #d1fae5; color: #059669; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+
+    /* Pricing Cards */
+    .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 0 auto; padding: 0 2rem 4rem; }
+    .plan {
+      border: 2px solid #e2e8f0; border-radius: 16px; padding: 2.5rem;
+      position: relative; transition: border-color 0.3s, transform 0.3s;
+    }
+    .plan:hover { border-color: #c7d2fe; transform: translateY(-4px); }
+    .plan.featured {
+      border-color: #6366f1; background: linear-gradient(to bottom, #fafafe, #f0f0ff);
+    }
+    .plan.featured::before {
+      content: 'Most Popular'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: #6366f1; color: white; padding: 4px 16px; border-radius: 12px;
+      font-size: 0.75rem; font-weight: 600;
+    }
+    .plan-name { font-size: 1.1rem; font-weight: 600; color: #64748b; }
+    .plan-price { font-size: 3rem; font-weight: 800; margin: 1rem 0 0.25rem; }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: #94a3b8; }
+    .plan-desc { font-size: 0.9rem; color: #94a3b8; margin-bottom: 2rem; }
+    .plan-features { list-style: none; margin-bottom: 2rem; }
+    .plan-features li {
+      padding: 0.5rem 0; font-size: 0.9rem; color: #475569;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .plan-features .check { color: #6366f1; font-weight: bold; }
+    .plan-features .cross { color: #cbd5e1; }
+    .plan-btn {
+      display: block; width: 100%; padding: 12px; border-radius: 10px;
+      text-align: center; font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-outline { border: 2px solid #e2e8f0; color: #0f172a; background: white; }
+    .btn-outline:hover { border-color: #6366f1; color: #6366f1; }
+    .btn-filled { background: #6366f1; color: white; border: 2px solid #6366f1; }
+    .btn-filled:hover { background: #4f46e5; }
+
+    /* Comparison Table */
+    .comparison { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+    .comparison h2 { font-size: 2rem; text-align: center; margin-bottom: 0.5rem; }
+    .comparison .subtitle { text-align: center; color: #64748b; margin-bottom: 2.5rem; }
+    .comparison table { width: 100%; border-collapse: collapse; }
+    .comparison th, .comparison td { padding: 1rem; text-align: left; border-bottom: 1px solid #f1f5f9; }
+    .comparison th { font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .comparison th:not(:first-child), .comparison td:not(:first-child) { text-align: center; }
+    .comparison td { font-size: 0.9rem; color: #475569; }
+    .comparison .feature-name { font-weight: 500; }
+    .comparison .section-row { background: #f8fafc; font-weight: 600; color: #0f172a; }
+
+    /* FAQ */
+    .faq { max-width: 700px; margin: 0 auto; padding: 4rem 2rem; }
+    .faq h2 { font-size: 2rem; text-align: center; margin-bottom: 2rem; }
+    .faq-item { border-bottom: 1px solid #f1f5f9; }
+    .faq-question {
+      padding: 1.25rem 0; font-size: 1rem; font-weight: 500;
+      cursor: pointer; display: flex; justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question:hover { color: #6366f1; }
+    .faq-answer { padding: 0 0 1.25rem; color: #64748b; line-height: 1.7; font-size: 0.9rem; display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-arrow { transition: transform 0.2s; }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+    /* CTA */
+    .cta-section {
+      background: #0f172a; color: white; text-align: center;
+      padding: 5rem 2rem; margin-top: 2rem;
+    }
+    .cta-section h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+    .cta-section p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem; }
+    .cta-section .cta-btn {
+      display: inline-block; background: #6366f1; color: white;
+      padding: 14px 32px; border-radius: 10px; font-weight: 600;
+      text-decoration: none; font-size: 1rem;
+    }
+    .cta-section .cta-btn:hover { background: #4f46e5; }
+    .cta-section .cta-note { color: #64748b; font-size: 0.85rem; margin-top: 1rem; }
+
+    /* Footer */
+    footer { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+    .footer-brand { color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+    .footer-col h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 1rem; }
+    .footer-col a { display: block; color: #64748b; text-decoration: none; font-size: 0.9rem; padding: 0.3rem 0; }
+    .footer-col a:hover { color: #6366f1; }
+    .footer-bottom { border-top: 1px solid #f1f5f9; padding-top: 1.5rem; color: #94a3b8; font-size: 0.85rem; display: flex; justify-content: space-between; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .pricing { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      nav a:not(.nav-cta) { display: none; }
+      .comparison { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">Cloud<span>Sync</span></a>
+  <nav>
+    <a href="#">Features</a>
+    <a href="#">Pricing</a>
+    <a href="#">Docs</a>
+    <a href="#">Blog</a>
+    <a href="#" class="nav-cta">Start Free Trial</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="badge">New: Team collaboration features</div>
+  <h1>Simple pricing for every team</h1>
+  <p>Start free, scale as you grow. No hidden fees, no surprises. All plans include a 14-day free trial.</p>
+</section>
+
+<div class="toggle-container">
+  <span class="toggle-label active" id="monthlyLabel">Monthly</span>
+  <div class="toggle" id="billingToggle" onclick="toggleBilling()"></div>
+  <span class="toggle-label" id="yearlyLabel">Yearly</span>
+  <span class="save-badge">Save 20%</span>
+</div>
+
+<div class="pricing">
+  <!-- Starter -->
+  <div class="plan">
+    <div class="plan-name">Starter</div>
+    <div class="plan-price" id="starterPrice">$9<span>/mo</span></div>
+    <div class="plan-desc">For individuals and small projects</div>
+    <ul class="plan-features">
+      <li><span class="check">&#10003;</span> 10 GB storage</li>
+      <li><span class="check">&#10003;</span> 3 team members</li>
+      <li><span class="check">&#10003;</span> Basic sync</li>
+      <li><span class="check">&#10003;</span> Email support</li>
+      <li><span class="cross">&#10005;</span> Advanced analytics</li>
+      <li><span class="cross">&#10005;</span> Custom domains</li>
+      <li><span class="cross">&#10005;</span> Priority support</li>
+    </ul>
+    <a href="#" class="plan-btn btn-outline">Get Started</a>
+  </div>
+
+  <!-- Pro -->
+  <div class="plan featured">
+    <div class="plan-name">Professional</div>
+    <div class="plan-price" id="proPrice">$29<span>/mo</span></div>
+    <div class="plan-desc">For growing teams that need more</div>
+    <ul class="plan-features">
+      <li><span class="check">&#10003;</span> 100 GB storage</li>
+      <li><span class="check">&#10003;</span> 15 team members</li>
+      <li><span class="check">&#10003;</span> Real-time sync</li>
+      <li><span class="check">&#10003;</span> Priority support</li>
+      <li><span class="check">&#10003;</span> Advanced analytics</li>
+      <li><span class="check">&#10003;</span> Custom domains</li>
+      <li><span class="cross">&#10005;</span> SSO & SAML</li>
+    </ul>
+    <a href="#" class="plan-btn btn-filled">Start Free Trial</a>
+  </div>
+
+  <!-- Enterprise -->
+  <div class="plan">
+    <div class="plan-name">Enterprise</div>
+    <div class="plan-price">Custom</div>
+    <div class="plan-desc">For organizations with advanced needs</div>
+    <ul class="plan-features">
+      <li><span class="check">&#10003;</span> Unlimited storage</li>
+      <li><span class="check">&#10003;</span> Unlimited members</li>
+      <li><span class="check">&#10003;</span> Real-time sync</li>
+      <li><span class="check">&#10003;</span> Dedicated support</li>
+      <li><span class="check">&#10003;</span> Advanced analytics</li>
+      <li><span class="check">&#10003;</span> Custom domains</li>
+      <li><span class="check">&#10003;</span> SSO & SAML</li>
+    </ul>
+    <a href="#" class="plan-btn btn-outline">Contact Sales</a>
+  </div>
+</div>
+
+<!-- Comparison -->
+<section class="comparison">
+  <h2>Compare plans in detail</h2>
+  <p class="subtitle">Everything you need to make the right choice</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Starter</th>
+        <th>Professional</th>
+        <th>Enterprise</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-row"><td colspan="4">Storage & Sync</td></tr>
+      <tr><td class="feature-name">Storage</td><td>10 GB</td><td>100 GB</td><td>Unlimited</td></tr>
+      <tr><td class="feature-name">File size limit</td><td>100 MB</td><td>2 GB</td><td>Unlimited</td></tr>
+      <tr><td class="feature-name">Sync speed</td><td>Standard</td><td>Priority</td><td>Dedicated</td></tr>
+      <tr><td class="feature-name">Version history</td><td>30 days</td><td>1 year</td><td>Unlimited</td></tr>
+      <tr class="section-row"><td colspan="4">Collaboration</td></tr>
+      <tr><td class="feature-name">Team members</td><td>3</td><td>15</td><td>Unlimited</td></tr>
+      <tr><td class="feature-name">Shared folders</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td class="feature-name">Comments & annotations</td><td>&#10005;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td class="feature-name">Guest access</td><td>&#10005;</td><td>5 guests</td><td>Unlimited</td></tr>
+      <tr class="section-row"><td colspan="4">Security</td></tr>
+      <tr><td class="feature-name">Encryption at rest</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td class="feature-name">2FA</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td class="feature-name">SSO / SAML</td><td>&#10005;</td><td>&#10005;</td><td>&#10003;</td></tr>
+      <tr><td class="feature-name">Audit log</td><td>&#10005;</td><td>90 days</td><td>Unlimited</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <h2>Frequently asked questions</h2>
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Can I switch plans anytime?
+      <span class="faq-arrow">&#9660;</span>
+    </div>
+    <div class="faq-answer">Yes! You can upgrade or downgrade at any time. When upgrading, you'll be charged the prorated difference. When downgrading, the credit will be applied to your next billing cycle.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      What happens when my trial ends?
+      <span class="faq-arrow">&#9660;</span>
+    </div>
+    <div class="faq-answer">After your 14-day trial, you'll be automatically downgraded to the free tier unless you add a payment method. No charges without your explicit consent.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Do you offer refunds?
+      <span class="faq-arrow">&#9660;</span>
+    </div>
+    <div class="faq-answer">We offer a full refund within the first 30 days of any paid plan. After that, you can cancel anytime and continue using the service until the end of your billing period.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Is there a free plan?
+      <span class="faq-arrow">&#9660;</span>
+    </div>
+    <div class="faq-answer">Yes, we have a free tier with 2 GB of storage and 1 team member. It's perfect for personal use or trying out the platform before committing to a paid plan.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      What payment methods do you accept?
+      <span class="faq-arrow">&#9660;</span>
+    </div>
+    <div class="faq-answer">We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and bank transfers for annual Enterprise plans.</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to get started?</h2>
+  <p>Join 50,000+ teams already using CloudSync to stay in sync.</p>
+  <a href="#" class="cta-btn">Start Your Free Trial</a>
+  <p class="cta-note">No credit card required. Cancel anytime.</p>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="display:block; margin-bottom:1rem;">Cloud<span style="color:#6366f1;">Sync</span></a>
+      <p>Making file sync simple, secure, and collaborative for teams of all sizes.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#">Features</a>
+      <a href="#">Pricing</a>
+      <a href="#">Integrations</a>
+      <a href="#">Changelog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Help Center</a>
+      <a href="#">Contact</a>
+      <a href="#">Status</a>
+      <a href="#">API Docs</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2024 CloudSync, Inc. All rights reserved.</span>
+    <span>
+      <a href="#" style="color:#94a3b8;text-decoration:none;">Privacy</a> &middot;
+      <a href="#" style="color:#94a3b8;text-decoration:none;">Terms</a> &middot;
+      <a href="#" style="color:#94a3b8;text-decoration:none;">Cookies</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  let isYearly = false;
+  function toggleBilling() {
+    isYearly = !isYearly;
+    document.getElementById('billingToggle').classList.toggle('active');
+    document.getElementById('monthlyLabel').classList.toggle('active');
+    document.getElementById('yearlyLabel').classList.toggle('active');
+
+    document.getElementById('starterPrice').innerHTML = isYearly ? '$7<span>/mo</span>' : '$9<span>/mo</span>';
+    document.getElementById('proPrice').innerHTML = isYearly ? '$23<span>/mo</span>' : '$29<span>/mo</span>';
+  }
+
+  function toggleFaq(el) {
+    el.parentElement.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>

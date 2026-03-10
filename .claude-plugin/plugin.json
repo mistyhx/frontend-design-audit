@@ -1,0 +1,10 @@
+{
+  "name": "frontend-design-audit",
+  "description": "Audit and improve the usability of existing front-end interfaces. Systematically evaluates your UI code against 15 established design principles, identifies issues, rates severity, and helps fix what it finds.",
+  "version": "1.0.0",
+  "author": {
+    "name": "UXSkills"
+  },
+  "commands": "./.claude/commands",
+  "skills": "./.claude/skills"
+}

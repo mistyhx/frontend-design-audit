@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew &amp; Bean — Artisan Coffee Crafted with Passion</title>
+  <meta name="description" content="Artisan coffee crafted with passion. Ethically sourced beans, roasted in-house weekly. Order ahead for pickup at Brew &amp; Bean.">
+  <meta property="og:title" content="Brew &amp; Bean — Artisan Coffee">
+  <meta property="og:description" content="Artisan coffee crafted with passion. Ethically sourced beans, roasted in-house weekly. Order ahead for pickup.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200">
+  <meta property="og:url" content="https://brewandbean.com">
+  <style>
+    /* ==========================================================
+       Phase 1 — Design Foundation: CSS Custom Properties
+       Coffee-shop brand: warm browns, cream, gold accents.
+       Marketing page: bold, focused, conversion-oriented.
+       ========================================================== */
+    :root {
+      /* Spacing scale — intentional hierarchy */
+      --space-xs: 0.25rem;   /* 4px — label-to-input, icon-to-text */
+      --space-sm: 0.5rem;    /* 8px — tight within-component */
+      --space-md: 1rem;      /* 16px — between related elements */
+      --space-lg: 1.5rem;    /* 24px — within-card padding, field groups */
+      --space-xl: 2.5rem;    /* 40px — between content groups */
+      --space-2xl: 4rem;     /* 64px — between sections (min) */
+      --space-3xl: 6rem;     /* 96px — between major sections */
+
+      /* Type scale — clear size AND weight differentiation */
+      --text-xs: 0.75rem;    /* captions, fine print */
+      --text-sm: 0.875rem;   /* secondary text, descriptions */
+      --text-base: 1rem;     /* body */
+      --text-lg: 1.125rem;   /* card titles, emphasized body */
+      --text-xl: 1.5rem;     /* section subtitles */
+      --text-2xl: 2rem;      /* section headings */
+      --text-3xl: 2.75rem;   /* hero subheading */
+      --text-4xl: 3.5rem;    /* hero headline */
+
+      --font-normal: 400;
+      --font-medium: 500;
+      --font-semibold: 600;
+      --font-bold: 700;
+
+      --leading-tight: 1.2;
+      --leading-normal: 1.5;
+      --leading-relaxed: 1.7;
+
+      /* Color palette — warm brown/cream brand, NOT generic blue/indigo */
+      --color-brand: #8B5E3C;          /* warm medium brown — primary accent */
+      --color-brand-hover: #7A5235;    /* slightly darker for hover */
+      --color-brand-active: #6B4730;   /* pressed state */
+      --color-brand-light: #D4A574;    /* golden caramel — secondary accent */
+      --color-brand-subtle: #F5EDE4;   /* very light warm — subtle backgrounds */
+
+      --color-dark: #2D1E0F;           /* espresso dark — nav, dark sections */
+      --color-dark-deep: #1A1108;      /* deepest brown — footer */
+
+      --color-text: #2C2418;           /* warm near-black for body text */
+      --color-text-secondary: #5C4A3A; /* warm medium-brown for secondary — 5.2:1 on white */
+      --color-text-muted: #7A6B5D;     /* warm gray-brown for muted — 4.6:1 on white */
+      --color-text-on-dark: #F5F0EB;   /* cream-white for text on dark bg */
+      --color-text-on-dark-secondary: #C8BBAE; /* muted cream for secondary on dark — 7.2:1 on #2D1E0F */
+
+      --color-bg: #FFFFFF;
+      --color-bg-warm: #FAF7F2;        /* warm off-white for alternate sections */
+      --color-border: #E4D9CE;         /* warm light border */
+      --color-border-focus: #8B5E3C;
+
+      --color-success: #3A7D44;        /* earthy green */
+      --color-error: #C0392B;          /* warm red */
+      --color-error-bg: #FDECEA;
+      --color-error-border: #E8A89C;
+
+      /* Shadows — warm tint, 3 levels */
+      --shadow-sm: 0 1px 3px rgba(45, 30, 15, 0.06);
+      --shadow-md: 0 4px 12px rgba(45, 30, 15, 0.08);
+      --shadow-lg: 0 8px 24px rgba(45, 30, 15, 0.12);
+
+      /* Border radius — 2 values */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+
+      /* Transitions — one standard timing */
+      --transition: 150ms ease;
+    }
+
+    /* ==========================================================
+       Reset & Base
+       ========================================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      color: var(--color-text);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ==========================================================
+       Skip Link
+       ========================================================== */
+    .skip-link {
+      position: absolute;
+      top: -3rem;
+      left: var(--space-md);
+      background: var(--color-brand);
+      color: #fff;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm);
+      text-decoration: none;
+      z-index: 200;
+      transition: top var(--transition);
+    }
+
+    .skip-link:focus {
+      top: var(--space-sm);
+    }
+
+    /* ==========================================================
+       Focus Visible — global
+       ========================================================== */
+    :focus-visible {
+      outline: 2px solid var(--color-brand);
+      outline-offset: 2px;
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    /* ==========================================================
+       Utility: Container
+       ========================================================== */
+    .container {
+      max-width: 1120px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: var(--space-lg);
+      padding-right: var(--space-lg);
+    }
+
+    /* ==========================================================
+       Header / Navigation
+       ========================================================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(45, 30, 15, 0.96);
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .site-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 3.5rem;
+    }
+
+    .logo {
+      color: var(--color-brand-light);
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .logo:hover {
+      color: #E2BB92;
+    }
+
+    .nav-list {
+      display: flex;
+      gap: var(--space-xl);
+      list-style: none;
+    }
+
+    .nav-list a {
+      color: var(--color-text-on-dark-secondary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: var(--space-xs) 0;
+      transition: color var(--transition);
+    }
+
+    .nav-list a:hover {
+      color: var(--color-brand-light);
+    }
+
+    .nav-list a:active {
+      color: #E2BB92;
+    }
+
+    /* Mobile toggle */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--color-brand-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: var(--space-sm);
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      transition: color var(--transition);
+    }
+
+    .mobile-toggle:hover {
+      color: #E2BB92;
+    }
+
+    .mobile-toggle:active {
+      color: #fff;
+    }
+
+    /* ==========================================================
+       Hero Section — bold, one message, one ghost CTA
+       Marketing: generous space, dominant headline
+       ========================================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding: var(--space-3xl) var(--space-lg);
+      background:
+        linear-gradient(rgba(26, 17, 8, 0.52), rgba(26, 17, 8, 0.58)),
+        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600') center / cover no-repeat;
+    }
+
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--space-md);
+    }
+
+    .hero p {
+      font-size: var(--text-xl);
+      color: var(--color-text-on-dark-secondary);
+      max-width: 560px;
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--space-xl);
+    }
+
+    /* Ghost CTA in hero — subtle, not primary */
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      border: 1.5px solid rgba(212, 165, 116, 0.6);
+      color: var(--color-brand-light);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-radius: var(--radius-sm);
+      transition: background var(--transition), border-color var(--transition), color var(--transition);
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(212, 165, 116, 0.12);
+      border-color: var(--color-brand-light);
+      color: #E8C99B;
+    }
+
+    .btn-ghost:active {
+      background: rgba(212, 165, 116, 0.2);
+    }
+
+    /* ==========================================================
+       Section Titles — consistent pattern
+       ========================================================== */
+    .section-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
+      letter-spacing: -0.01em;
+    }
+
+    .section-subtitle {
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      margin-top: var(--space-sm);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* ==========================================================
+       Menu Section — cards earned: discrete, browseable items
+       ========================================================== */
+    .menu-section {
+      padding: var(--space-3xl) 0;
+      background: var(--color-bg-warm);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .menu-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .menu-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .menu-card-body {
+      padding: var(--space-lg);
+    }
+
+    .menu-card h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-xs);
+    }
+
+    .menu-card .price {
+      font-size: var(--text-base);
+      font-weight: var(--font-bold);
+      color: var(--color-brand);
+    }
+
+    .menu-card .desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed);
+      margin-top: var(--space-sm);
+    }
+
+    /* ==========================================================
+       About Section — secondary CTA, not primary
+       ========================================================== */
+    .about-section {
+      padding: var(--space-3xl) 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2xl);
+      align-items: center;
+    }
+
+    .about-image {
+      border-radius: var(--radius-md);
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+
+    .about-content h2 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-md);
+    }
+
+    .about-content p {
+      color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--space-md);
+    }
+
+    .about-content p:last-of-type {
+      margin-bottom: var(--space-xl);
+    }
+
+    /* Secondary button — outlined, not solid */
+    .btn-secondary {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border: 1.5px solid var(--color-brand);
+      color: var(--color-brand);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: var(--radius-sm);
+      transition: background var(--transition), color var(--transition);
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-brand);
+      color: #fff;
+    }
+
+    .btn-secondary:active {
+      background: var(--color-brand-active);
+      color: #fff;
+    }
+
+    /* ==========================================================
+       Testimonials — NOT cards. Quote with left border accent.
+       Different pattern from menu cards, as the skill anti-patterns demand.
+       ========================================================== */
+    .testimonials-section {
+      padding: var(--space-3xl) 0;
+      background: var(--color-dark);
+      color: var(--color-text-on-dark);
+    }
+
+    .testimonials-section .section-title {
+      color: var(--color-text-on-dark);
+    }
+
+    .testimonials-section .section-subtitle {
+      color: var(--color-text-on-dark-secondary);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-xl);
+    }
+
+    /* Simple border-left accent — not a card */
+    .testimonial {
+      border-left: 3px solid var(--color-brand-light);
+      padding-left: var(--space-lg);
+    }
+
+    .testimonial-stars {
+      color: var(--color-brand-light);
+      font-size: var(--text-sm);
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-sm);
+    }
+
+    .testimonial blockquote {
+      font-size: var(--text-base);
+      color: var(--color-text-on-dark-secondary);
+      line-height: var(--leading-relaxed);
+      font-style: italic;
+      margin-bottom: var(--space-md);
+    }
+
+    .testimonial cite {
+      font-size: var(--text-sm);
+      font-style: normal;
+      font-weight: var(--font-semibold);
+      color: var(--color-brand-light);
+    }
+
+    /* ==========================================================
+       Order Form — ONE primary CTA (solid button)
+       ========================================================== */
+    .order-section {
+      padding: var(--space-3xl) 0;
+      background: var(--color-bg-warm);
+    }
+
+    .order-form {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+
+    .form-field {
+      margin-bottom: var(--space-md);
+    }
+
+    .form-field label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      color: var(--color-text);
+      margin-bottom: var(--space-xs);
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      padding: 0.75rem var(--space-md);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-base);
+      font-family: inherit;
+      color: var(--color-text);
+      background: var(--color-bg);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--color-border-focus);
+      box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.12);
+    }
+
+    .form-field input[aria-invalid="true"],
+    .form-field select[aria-invalid="true"],
+    .form-field textarea[aria-invalid="true"] {
+      border-color: var(--color-error);
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+    }
+
+    .form-field .field-error {
+      display: none;
+      font-size: var(--text-xs);
+      color: var(--color-error);
+      margin-top: var(--space-xs);
+    }
+
+    .form-field .field-error.visible {
+      display: block;
+    }
+
+    .form-field textarea {
+      resize: vertical;
+      min-height: 5rem;
+    }
+
+    /* Primary button — THE one dominant CTA on the page */
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 0.875rem var(--space-lg);
+      background: var(--color-brand);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: var(--text-base);
+      font-family: inherit;
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      margin-top: var(--space-lg);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-brand-hover);
+    }
+
+    .btn-primary:active {
+      background: var(--color-brand-active);
+      transform: translateY(1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Inline success/error messages — replaces alert() */
+    .form-message {
+      display: none;
+      padding: var(--space-md);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm);
+      line-height: var(--leading-normal);
+      margin-top: var(--space-md);
+    }
+
+    .form-message.success {
+      display: block;
+      background: #EAF5EB;
+      color: var(--color-success);
+      border: 1px solid #B7DABB;
+    }
+
+    .form-message.error {
+      display: block;
+      background: var(--color-error-bg);
+      color: var(--color-error);
+      border: 1px solid var(--color-error-border);
+    }
+
+    /* ==========================================================
+       Footer
+       ========================================================== */
+    .site-footer {
+      background: var(--color-dark-deep);
+      color: var(--color-text-on-dark-secondary);
+      padding: var(--space-2xl) 0;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--color-text-on-dark-secondary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--color-brand-light);
+    }
+
+    .footer-links a:active {
+      color: #E2BB92;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--color-text-on-dark-secondary);
+      text-decoration: none;
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      letter-spacing: 0.04em;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--color-brand);
+      color: #fff;
+    }
+
+    .social-links a:active {
+      background: var(--color-brand-active);
+    }
+
+    .site-footer .copyright {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    /* ==========================================================
+       Responsive — Mobile
+       ========================================================== */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.25rem;
+      }
+
+      .hero p {
+        font-size: var(--text-lg);
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+      }
+
+      .testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-list {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 3.5rem;
+        left: 0;
+        right: 0;
+        background: rgba(45, 30, 15, 0.98);
+        padding: var(--space-md) var(--space-lg) var(--space-lg);
+        gap: 0;
+      }
+
+      .nav-list.open {
+        display: flex;
+      }
+
+      .nav-list li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .nav-list li:last-child {
+        border-bottom: none;
+      }
+
+      .nav-list a {
+        display: block;
+        padding: var(--space-md) 0;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+
+      .mobile-toggle {
+        display: flex;
+      }
+
+      .section-title {
+        font-size: var(--text-xl);
+      }
+
+      .section-subtitle {
+        font-size: var(--text-sm);
+      }
+
+      .about-content h2 {
+        font-size: var(--text-xl);
+      }
+
+      /* Tighter section spacing on mobile */
+      .menu-section,
+      .about-section,
+      .testimonials-section,
+      .order-section {
+        padding: var(--space-2xl) 0;
+      }
+    }
+
+    /* Medium screens */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ============================================================
+     Header
+     ============================================================ -->
+<header class="site-header">
+  <div class="container">
+    <a href="#" class="logo" aria-label="Brew &amp; Bean — Home">Brew &amp; Bean</a>
+    <button
+      class="mobile-toggle"
+      id="mobileToggle"
+      aria-expanded="false"
+      aria-controls="mainNav"
+      aria-label="Open navigation menu"
+    >&#9776;</button>
+    <nav aria-label="Main navigation">
+      <ul class="nav-list" id="mainNav" role="list">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#order">Order</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     Main Content
+     ============================================================ -->
+<main id="main-content">
+
+  <!-- Hero: ghost CTA, not primary -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <h1 id="hero-heading">Brew &amp; Bean</h1>
+    <p>Artisan coffee crafted with passion. Every cup tells a story of carefully sourced beans and expert roasting.</p>
+    <a href="#menu" class="btn-ghost">Explore Our Menu</a>
+  </section>
+
+  <!-- Menu: cards earned — discrete, browseable products -->
+  <section class="menu-section" id="menu" aria-labelledby="menu-heading">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" id="menu-heading">Our Menu</h2>
+        <p class="section-subtitle">Handcrafted drinks made fresh daily</p>
+      </div>
+      <div class="menu-grid">
+        <article class="menu-card">
+          <img
+            src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600"
+            alt="Classic espresso in a white ceramic cup on a saucer"
+            loading="lazy"
+            width="600"
+            height="400"
+          >
+          <div class="menu-card-body">
+            <h3>Classic Espresso</h3>
+            <div class="price">$4.50</div>
+            <p class="desc">Rich, bold, and perfectly extracted. Our signature blend from Ethiopian highlands.</p>
+          </div>
+        </article>
+        <article class="menu-card">
+          <img
+            src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600"
+            alt="Vanilla oat latte with latte art in a tall glass"
+            loading="lazy"
+            width="600"
+            height="400"
+          >
+          <div class="menu-card-body">
+            <h3>Vanilla Oat Latte</h3>
+            <div class="price">$6.00</div>
+            <p class="desc">Silky oat milk meets house-made vanilla syrup. A crowd favorite for good reason.</p>
+          </div>
+        </article>
+        <article class="menu-card">
+          <img
+            src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600"
+            alt="Matcha cloud drink with green foam in a glass"
+            loading="lazy"
+            width="600"
+            height="400"
+          >
+          <div class="menu-card-body">
+            <h3>Matcha Cloud</h3>
+            <div class="price">$5.75</div>
+            <p class="desc">Ceremonial grade matcha whipped with cold foam. Earthy, creamy, and refreshing.</p>
+          </div>
+        </article>
+        <article class="menu-card">
+          <img
+            src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600"
+            alt="Cold brew coffee in a glass with ice"
+            loading="lazy"
+            width="600"
+            height="400"
+          >
+          <div class="menu-card-body">
+            <h3>Cold Brew Reserve</h3>
+            <div class="price">$5.50</div>
+            <p class="desc">Slow-steeped for 20 hours. Smooth, naturally sweet, and impossibly refreshing.</p>
+          </div>
+        </article>
+        <article class="menu-card">
+          <img
+            src="https://images.unsplash.com/photo-1514066558159-fc8c737ef259?w=600"
+            alt="Honey cinnamon cappuccino topped with cinnamon dust"
+            loading="lazy"
+            width="600"
+            height="400"
+          >
+          <div class="menu-card-body">
+            <h3>Honey Cinnamon Cappuccino</h3>
+            <div class="price">$5.25</div>
+            <p class="desc">Local wildflower honey and Ceylon cinnamon over our signature cappuccino.</p>
+          </div>
+        </article>
+        <article class="menu-card">
+          <img
+            src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600"
+            alt="Lavender mocha with purple-tinted foam"
+            loading="lazy"
+            width="600"
+            height="400"
+          >
+          <div class="menu-card-body">
+            <h3>Lavender Mocha</h3>
+            <div class="price">$6.25</div>
+            <p class="desc">French lavender meets Belgian chocolate. Unexpected harmony in every sip.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About: secondary CTA -->
+  <section class="about-section" id="about" aria-labelledby="about-heading">
+    <div class="container">
+      <div class="about-grid">
+        <img
+          class="about-image"
+          src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800"
+          alt="Barista pouring steamed milk into a latte, creating art in the cup"
+          loading="lazy"
+          width="800"
+          height="600"
+        >
+        <div class="about-content">
+          <h2 id="about-heading">Our Story</h2>
+          <p>Founded in 2018, Brew &amp; Bean started as a small cart at the local farmers market. What began as a weekend passion project quickly grew into something more — a community gathering spot where great coffee meets great conversation.</p>
+          <p>We source our beans directly from small-scale farmers in Ethiopia, Colombia, and Guatemala. Every batch is roasted in-house weekly to ensure peak freshness. We believe that exceptional coffee starts with exceptional relationships.</p>
+          <a href="#order" class="btn-secondary">Order Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials: NOT cards — border-left accent quotes -->
+  <section class="testimonials-section" id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" id="testimonials-heading">What People Say</h2>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial">
+          <div class="testimonial-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>
+            <p>"Best coffee in the city, hands down. The cold brew changed my morning routine forever."</p>
+          </blockquote>
+          <cite>Sarah M.</cite>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>
+            <p>"The atmosphere is incredible. I come here every day to work and the staff remembers my order."</p>
+          </blockquote>
+          <cite>James K.</cite>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>
+            <p>"Finally a coffee shop that takes oat milk seriously. The vanilla oat latte is perfection."</p>
+          </blockquote>
+          <cite>Maria L.</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order Form: THE primary CTA on the page -->
+  <section class="order-section" id="order" aria-labelledby="order-heading">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" id="order-heading">Place an Order</h2>
+        <p class="section-subtitle">Skip the line — order ahead for pickup</p>
+      </div>
+      <form class="order-form" id="orderForm" novalidate aria-label="Order form">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="firstName">First name</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              autocomplete="given-name"
+              required
+              placeholder="Jane"
+              aria-required="true"
+            >
+            <span class="field-error" id="firstNameError" role="alert">Please enter your first name.</span>
+          </div>
+          <div class="form-field">
+            <label for="lastName">Last name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              autocomplete="family-name"
+              required
+              placeholder="Smith"
+              aria-required="true"
+            >
+            <span class="field-error" id="lastNameError" role="alert">Please enter your last name.</span>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            required
+            placeholder="jane@example.com"
+            aria-required="true"
+          >
+          <span class="field-error" id="emailError" role="alert">Please enter a valid email address.</span>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone number <span style="font-weight:var(--font-normal);color:var(--color-text-muted);">(optional)</span></label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            autocomplete="tel"
+            placeholder="(555) 123-4567"
+          >
+        </div>
+        <div class="form-field">
+          <label for="drink">Select your drink</label>
+          <select id="drink" name="drink" required aria-required="true">
+            <option value="">Choose a drink...</option>
+            <option value="espresso">Classic Espresso — $4.50</option>
+            <option value="vanilla-oat-latte">Vanilla Oat Latte — $6.00</option>
+            <option value="matcha-cloud">Matcha Cloud — $5.75</option>
+            <option value="cold-brew">Cold Brew Reserve — $5.50</option>
+            <option value="honey-cinnamon">Honey Cinnamon Cappuccino — $5.25</option>
+            <option value="lavender-mocha">Lavender Mocha — $6.25</option>
+          </select>
+          <span class="field-error" id="drinkError" role="alert">Please select a drink.</span>
+        </div>
+        <div class="form-field">
+          <label for="milk">Milk preference</label>
+          <select id="milk" name="milk">
+            <option value="">No preference</option>
+            <option value="whole">Whole Milk</option>
+            <option value="oat">Oat Milk (+$0.75)</option>
+            <option value="almond">Almond Milk (+$0.75)</option>
+            <option value="soy">Soy Milk (+$0.50)</option>
+            <option value="none">No Milk</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="instructions">Special instructions <span style="font-weight:var(--font-normal);color:var(--color-text-muted);">(optional)</span></label>
+          <textarea
+            id="instructions"
+            name="instructions"
+            rows="3"
+            placeholder="Allergies, modifications, extra hot, etc."
+          ></textarea>
+        </div>
+        <button type="submit" class="btn-primary" id="submitBtn">Place Order</button>
+        <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     Footer
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <nav aria-label="Footer navigation">
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Careers</a>
+        <a href="#">Gift Cards</a>
+      </div>
+    </nav>
+    <div class="social-links">
+      <a href="#" aria-label="Brew and Bean on Facebook">FB</a>
+      <a href="#" aria-label="Brew and Bean on Instagram">IG</a>
+      <a href="#" aria-label="Brew and Bean on Twitter">TW</a>
+    </div>
+    <p class="copyright">&copy; 2024 Brew &amp; Bean Coffee Co. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  /* ==========================================================
+     Mobile Navigation
+     ========================================================== */
+  (function () {
+    var toggle = document.getElementById('mobileToggle');
+    var nav = document.getElementById('mainNav');
+
+    function openMenu() {
+      nav.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Close navigation menu');
+      toggle.innerHTML = '&#10005;';
+    }
+
+    function closeMenu() {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation menu');
+      toggle.innerHTML = '&#9776;';
+    }
+
+    toggle.addEventListener('click', function () {
+      var isOpen = nav.classList.contains('open');
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('open')) {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    // Close when a nav link is clicked (mobile)
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        closeMenu();
+      }
+    });
+  })();
+
+  /* ==========================================================
+     Order Form — Inline Validation + Inline Success Message
+     ========================================================== */
+  (function () {
+    var form = document.getElementById('orderForm');
+    var submitBtn = document.getElementById('submitBtn');
+    var formMessage = document.getElementById('formMessage');
+
+    // Validation rules
+    var rules = {
+      firstName: {
+        test: function (v) { return v.trim().length > 0; },
+        errorId: 'firstNameError'
+      },
+      lastName: {
+        test: function (v) { return v.trim().length > 0; },
+        errorId: 'lastNameError'
+      },
+      email: {
+        test: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); },
+        errorId: 'emailError'
+      },
+      drink: {
+        test: function (v) { return v !== ''; },
+        errorId: 'drinkError'
+      }
+    };
+
+    function validateField(field) {
+      var name = field.name;
+      var rule = rules[name];
+      if (!rule) return true;
+
+      var errorEl = document.getElementById(rule.errorId);
+      var valid = rule.test(field.value);
+
+      if (valid) {
+        field.removeAttribute('aria-invalid');
+        field.removeAttribute('aria-describedby');
+        errorEl.classList.remove('visible');
+      } else {
+        field.setAttribute('aria-invalid', 'true');
+        field.setAttribute('aria-describedby', rule.errorId);
+        errorEl.classList.add('visible');
+      }
+
+      return valid;
+    }
+
+    // Validate on blur for each required field
+    Object.keys(rules).forEach(function (name) {
+      var field = form.querySelector('[name="' + name + '"]');
+      if (field) {
+        field.addEventListener('blur', function () {
+          validateField(this);
+        });
+        // Clear error on input
+        field.addEventListener('input', function () {
+          if (this.getAttribute('aria-invalid') === 'true') {
+            validateField(this);
+          }
+        });
+      }
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Hide any previous message
+      formMessage.className = 'form-message';
+      formMessage.textContent = '';
+
+      // Validate all
+      var allValid = true;
+      var firstInvalid = null;
+
+      Object.keys(rules).forEach(function (name) {
+        var field = form.querySelector('[name="' + name + '"]');
+        if (field) {
+          var valid = validateField(field);
+          if (!valid && allValid) {
+            firstInvalid = field;
+            allValid = false;
+          } else if (!valid) {
+            allValid = false;
+          }
+        }
+      });
+
+      if (!allValid) {
+        if (firstInvalid) {
+          firstInvalid.focus();
+        }
+        return;
+      }
+
+      // Simulate submission
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Placing order\u2026';
+
+      setTimeout(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Place Order';
+        form.reset();
+
+        // Show inline success message
+        formMessage.className = 'form-message success';
+        formMessage.textContent = 'Order placed! We\u2019ll have it ready for pickup in 10\u201315 minutes.';
+
+        // Scroll message into view
+        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 1200);
+    });
+  })();
+</script>
+
+</body>
+</html>
