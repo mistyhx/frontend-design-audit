@@ -1,7 +1,7 @@
 ## UX Design Audit Report
 
 **Scope:** Full evaluation of a single-page project management dashboard with Kanban board, stats overview, sidebar navigation, activity feed, add-task modal, and filter/sort dropdowns.
-**Source:** `test-sites/task-dashboard.html`
+**Source:** `examples/task-dashboard.html`
 **Interface type:** Project management dashboard (Kanban board)
 
 ### How to Read This Report

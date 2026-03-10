@@ -1,7 +1,7 @@
 ## UX Design Audit Report
 
 **Scope:** Full single-page audit of the Brew & Bean coffee shop website
-**Source:** `/Users/xinhu/Projects/UXSkills/test-sites/coffee-shop.html`
+**Source:** `examples/coffee-shop.html`
 **Interface type:** Marketing / e-commerce landing page with order form
 
 ### How to Read This Report

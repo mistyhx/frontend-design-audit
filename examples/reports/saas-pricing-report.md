@@ -1,7 +1,7 @@
 ## UX Design Audit Report
 
 **Scope:** Full-page audit of a SaaS pricing page for "CloudSync," including navigation, hero section, billing toggle, three-tier pricing cards, feature comparison table, FAQ accordion, bottom CTA section, and footer.
-**Source:** `/Users/xinhu/Projects/UXSkills/test-sites/saas-pricing.html`
+**Source:** `examples/saas-pricing.html`
 **Interface type:** SaaS marketing / pricing page
 
 ### How to Read This Report
