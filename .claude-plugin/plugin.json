@@ -1,0 +1,20 @@
+{
+  "name": "frontend-design-audit",
+  "version": "1.0.0",
+  "description": "Audit and improve front-end usability using 15 established design principles. Acts as a Senior UX designer/engineer reviewing your interface end-to-end.",
+  "author": {
+    "name": "mistyhx",
+    "url": "https://github.com/mistyhx"
+  },
+  "repository": "https://github.com/mistyhx/frontend-design-audit",
+  "license": "MIT",
+  "keywords": [
+    "ux",
+    "usability",
+    "audit",
+    "design",
+    "accessibility",
+    "frontend",
+    "heuristics"
+  ]
+}

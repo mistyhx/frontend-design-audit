@@ -1,5 +1,5 @@
 ---
-name: frontend-design-audit:evaluate
+name: evaluate
 description: Run a usability audit on front-end code and produce a structured report. No implementation — just the analysis.
 ---
 
@@ -10,8 +10,8 @@ Run a usability audit and produce a report. Do not implement any changes.
 ## Required Reading
 
 Before starting, read these files:
-1. `../SKILL.md` — The evaluation framework and workflow
-2. `../references/heuristics.md` — Detailed principle definitions and what to look for
+1. `../audit/SKILL.md` — The evaluation framework and workflow
+2. `../../references/heuristics.md` — Detailed principle definitions and what to look for
 
 ## Usage
 
@@ -27,7 +27,7 @@ Before starting, read these files:
 
 2. **Read the code** — Read the key UI files. For large projects, focus on the most important screens (index/home, main dashboard, primary form, key user flow).
 
-3. **Evaluate systematically** — Go through all 15 principles. For each, inspect the code for violations. Reference `references/heuristics.md` for what to look for.
+3. **Evaluate systematically** — Go through all 15 principles. For each, inspect the code for violations. Reference `../../references/heuristics.md` for what to look for.
 
 4. **Rate severity** — Apply the 0-4 scale to each finding. Consider frequency, impact, and persistence.
 

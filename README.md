@@ -35,30 +35,19 @@ Then it implements the fixes: accessibility attributes, semantic HTML, visual hi
 
 ## Installation
 
-### Clone directly into your skills directory
+### Install as a plugin (recommended)
 
 ```bash
-git clone https://github.com/mistyhx/frontend-design-audit.git ~/.claude/skills/frontend-design-audit
+claude plugin install frontend-design-audit
 ```
 
-Then copy the slash commands:
+That's it. The plugin and all commands are available in any project.
+
+### Or install from source
 
 ```bash
-mkdir -p ~/.claude/commands
-cp ~/.claude/skills/frontend-design-audit/commands/* ~/.claude/commands/
-```
-
-That's it. Start Claude Code in any project and the skill is available.
-
-### Or add to a specific project
-
-If you only want the skill in one project:
-
-```bash
-cd your-project
-mkdir -p .claude/skills .claude/commands
-git clone https://github.com/mistyhx/frontend-design-audit.git .claude/skills/frontend-design-audit
-cp .claude/skills/frontend-design-audit/commands/* .claude/commands/
+git clone https://github.com/mistyhx/frontend-design-audit.git
+claude --plugin-dir ./frontend-design-audit
 ```
 
 ## Usage
@@ -68,7 +57,7 @@ cp .claude/skills/frontend-design-audit/commands/* .claude/commands/
 Evaluates your UI, presents a report, discusses findings with you, then implements fixes:
 
 ```
-/frontend-design-audit
+/frontend-design-audit:audit
 ```
 
 ### Evaluate Only
@@ -103,7 +92,7 @@ Auto-evaluates and fixes without discussion — good for rapid iteration:
 Pass a URL to audit a live site (report only — no code changes):
 
 ```
-/frontend-design-audit https://example.com
+/frontend-design-audit:audit https://example.com
 ```
 
 ## Example
