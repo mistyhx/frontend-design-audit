@@ -35,9 +35,9 @@ Then it implements the fixes: accessibility attributes, semantic HTML, visual hi
 
 ## Installation
 
-### Recommended: Plugin Marketplace
+### Recommended: Plugin Marketplace (one-time setup, works across all projects)
 
-1. Start Claude Code in your project:
+1. Start Claude Code in any project:
 
 ```bash
 cd your-project
@@ -60,7 +60,7 @@ claude
 
 5. Restart Claude Code.
 
-### Alternative: Load Directly
+### Alternative: Load Directly (per-session)
 
 Clone this repo, then start Claude Code from your project with a relative path to the plugin:
 
