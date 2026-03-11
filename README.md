@@ -37,30 +37,43 @@ Then it implements the fixes: accessibility attributes, semantic HTML, visual hi
 
 ### Recommended: Plugin Marketplace
 
-1. Add the marketplace:
+1. Start Claude Code in your project:
+
+```bash
+cd your-project
+claude
+```
+
+2. Add the marketplace:
 
 ```
 /plugin marketplace add mistyhx/frontend-design-audit
 ```
 
-2. Open the plugin menu:
+3. Open the plugin menu:
 
 ```
 /plugin menu
 ```
 
-3. Select and install `frontend-design-audit` from the list.
+4. Select and install `frontend-design-audit` from the list.
 
-4. Restart Claude Code.
+5. Restart Claude Code.
 
 ### Alternative: Load Directly
 
-Clone this repo and load it with `--plugin-dir`:
+Clone this repo, then start Claude Code from your project with a relative path to the plugin:
 
 ```bash
-git clone https://github.com/mistyhx/frontend-design-audit.git
+git clone https://github.com/mistyhx/frontend-design-audit.git ~/plugins/frontend-design-audit
 cd your-project
-claude --plugin-dir /path/to/frontend-design-audit
+claude --plugin-dir ../plugins/frontend-design-audit
+```
+
+Or use an absolute path:
+
+```bash
+claude --plugin-dir ~/plugins/frontend-design-audit
 ```
 
 ## Usage
