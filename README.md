@@ -57,7 +57,7 @@ Replace `/path/to/frontend-design-audit` with the absolute or relative path to w
 Evaluates your UI, presents a report, discusses findings with you, then implements fixes:
 
 ```
-/frontend-design-audit:audit
+/frontend-design-audit
 ```
 
 ### Evaluate Only
@@ -92,7 +92,7 @@ Auto-evaluates and fixes without discussion — good for rapid iteration:
 Pass a URL to audit a live site (report only — no code changes):
 
 ```
-/frontend-design-audit:audit https://example.com
+/frontend-design-audit https://example.com
 ```
 
 ## Example

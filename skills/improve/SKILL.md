@@ -5,12 +5,12 @@ description: Implement usability improvements based on a previous audit. Discuss
 
 # Frontend Audit: Improve
 
-Implement improvements from a usability audit. This command is for after an audit has been done — either from `/frontend-design-audit:evaluate` or a full `/frontend-design-audit:audit` run.
+Implement improvements from a usability audit. This command is for after an audit has been done — either from `/frontend-design-audit:evaluate` or a full `/frontend-design-audit` run.
 
 ## Required Reading
 
 Before starting, read:
-1. `../audit/SKILL.md` — Workflow and principles
+1. `../frontend-design-audit/SKILL.md` — Workflow and principles
 2. `../../references/patterns.md` — Common fix patterns with code examples
 
 ## Process
