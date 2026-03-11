@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "frontend-design-audit",
   "owner": {
     "name": "mistyhx"
@@ -6,15 +7,14 @@
   "plugins": [
     {
       "name": "frontend-design-audit",
-      "source": ".",
+      "source": "./",
       "description": "Audit and improve front-end usability using 15 established design principles. Acts as a Senior UX designer/engineer reviewing your interface end-to-end.",
       "version": "1.0.0",
       "author": {
         "name": "mistyhx"
       },
-      "repository": "https://github.com/mistyhx/frontend-design-audit",
-      "license": "MIT",
-      "keywords": ["ux", "usability", "audit", "design", "accessibility", "frontend", "heuristics"]
+      "homepage": "https://github.com/mistyhx/frontend-design-audit",
+      "tags": ["ux", "usability", "audit", "design", "accessibility", "frontend", "heuristics"]
     }
   ]
 }
