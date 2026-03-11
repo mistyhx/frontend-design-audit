@@ -1,0 +1,18 @@
+{
+  "name": "frontend-design-audit",
+  "owner": {
+    "name": "mistyhx"
+  },
+  "metadata": {
+    "description": "A marketplace for the frontend-design-audit plugin — audit and improve front-end usability using established design principles."
+  },
+  "plugins": [
+    {
+      "name": "frontend-design-audit",
+      "source": ".",
+      "description": "Audit and improve front-end usability using 15 established design principles. Acts as a Senior UX designer/engineer reviewing your interface end-to-end.",
+      "category": "design",
+      "tags": ["ux", "usability", "audit", "design", "accessibility", "frontend", "heuristics"]
+    }
+  ]
+}
