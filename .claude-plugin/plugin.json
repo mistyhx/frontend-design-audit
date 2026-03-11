@@ -8,6 +8,8 @@
   },
   "repository": "https://github.com/mistyhx/frontend-design-audit",
   "license": "MIT",
+  "commands": "./.claude/commands",
+  "skills": "./.claude/skills",
   "keywords": [
     "ux",
     "usability",

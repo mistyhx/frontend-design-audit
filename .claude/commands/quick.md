@@ -1,5 +1,5 @@
 ---
-name: quick
+name: frontend-design-audit:quick
 description: Auto-evaluate and fix usability issues without discussion. Evaluates the UI, then immediately implements fixes for all severity 3-4 issues and practical severity 2 fixes.
 ---
 
@@ -10,9 +10,9 @@ Evaluate and fix in one pass. No discussion — just identify and implement.
 ## Required Reading
 
 Before starting, read:
-1. `../frontend-design-audit/SKILL.md` — Framework and evaluation process
-2. `../../references/heuristics.md` — What to look for
-3. `../../references/patterns.md` — Fix patterns
+1. The main skill at `.claude/skills/frontend-design-audit/SKILL.md` — Framework and evaluation process
+2. `references/heuristics.md` — What to look for
+3. `references/patterns.md` — Fix patterns
 
 ## Usage
 
@@ -33,7 +33,7 @@ Before starting, read:
    - **Auto-fix** (severity 2 where the fix is safe and straightforward): Implement
    - **Report only** (severity 1, or severity 2 where the fix might change behavior): List but don't implement
 
-4. **Implement** — Apply all auto-fix changes. Use patterns from `../../references/patterns.md`. Make minimal, targeted changes.
+4. **Implement** — Apply all auto-fix changes. Use patterns from `references/patterns.md`. Make minimal, targeted changes.
 
 5. **Report** — Present a summary:
 

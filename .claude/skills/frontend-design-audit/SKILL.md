@@ -47,7 +47,7 @@ You evaluate against 15 principles drawn from established usability research and
 | 14 | **Perceptibility** |
 | 15 | **Tolerance and Forgiveness** |
 
-For detailed definitions, violation patterns, academic sources, and fix guidance for each principle, read `../../references/heuristics.md`.
+For detailed definitions, violation patterns, academic sources, and fix guidance for each principle, read `../../../references/heuristics.md`.
 
 ---
 
@@ -150,7 +150,7 @@ State these limitations in the report header so the user knows the scope.
 
 ### Step 2: Evaluate
 
-Read `../../references/heuristics.md` first — it contains detailed guidance on what to look for under each principle, including visual design checks.
+Read `../../../references/heuristics.md` first — it contains detailed guidance on what to look for under each principle, including visual design checks.
 
 Then walk through **every single principle, one by one**. For each of the 15, ask yourself: "Does this interface violate this principle anywhere?" Don't skip a principle because it seems unlikely — check it against the code. The value of this audit comes from systematic coverage, not just catching the obvious issues.
 
@@ -173,7 +173,7 @@ Then walk through **every single principle, one by one**. For each of the 15, as
 - **Empty states, loading states, and error states** — Check that these exist and communicate clearly. A missing empty state is a finding.
 - **Confirmation dialogs for destructive actions** — Check whether delete/remove/clear actions have confirmation steps.
 
-**Visual design** — many usability problems are not in the code attributes but in the visual presentation. These issues result in visible, meaningful changes when fixed. The visual design checks are integrated into `../../references/heuristics.md` under each relevant principle (especially H8, H11, H12, H14). Key areas:
+**Visual design** — many usability problems are not in the code attributes but in the visual presentation. These issues result in visible, meaningful changes when fixed. The visual design checks are integrated into `../../../references/heuristics.md` under each relevant principle (especially H8, H11, H12, H14). Key areas:
 - **Typography hierarchy** — Is there a clear size/weight progression that guides the eye? Can users scan headings, then drill into details? Are body text and labels large enough? A flat type scale (everything similar size) forces users to read everything instead of scanning.
 - **Spacing and proximity** — Are related items grouped tightly and separated from unrelated items (Gestalt proximity)? Is there enough breathing room between sections? Cramped layouts feel overwhelming; uniform spacing makes it hard to see where one section ends and another begins.
 - **Visual weight and emphasis** — Do primary actions (CTAs) visually dominate over secondary actions? Is the most important content (e.g., task titles vs metadata) visually prominent through size, weight, or color? When everything has equal visual weight, nothing stands out.
@@ -274,7 +274,7 @@ After presenting the report:
 
 ### Step 5: Implement
 
-Read `../../references/patterns.md` for concrete code examples, including design system and visual coherence patterns.
+Read `../../../references/patterns.md` for concrete code examples, including design system and visual coherence patterns.
 
 Implementation happens in three phases. Don't skip to individual fixes — the design foundation comes first. The goal is not just to fix individual findings but to make the UI feel cohesive and polished.
 
@@ -429,5 +429,5 @@ Every finding must reference:
 
 Load reference files progressively to keep token usage efficient:
 
-- `../../references/heuristics.md` — **Read during evaluation (Steps 1-3).** Complete definitions, what to look for in code (including visual design checks with reference tables), and severity guidance for each of the 15 principles.
-- `../../references/patterns.md` — **Read during implementation (Step 5) only.** Concrete code examples for common accessibility, interaction, and visual design fixes. Skip this file for evaluate-only runs.
+- `../../../references/heuristics.md` — **Read during evaluation (Steps 1-3).** Complete definitions, what to look for in code (including visual design checks with reference tables), and severity guidance for each of the 15 principles.
+- `../../../references/patterns.md` — **Read during implementation (Step 5) only.** Concrete code examples for common accessibility, interaction, and visual design fixes. Skip this file for evaluate-only runs.
