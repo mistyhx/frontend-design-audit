@@ -35,18 +35,27 @@ Then it implements the fixes: accessibility attributes, semantic HTML, visual hi
 
 ## Installation
 
-### Install as a plugin (recommended)
+### Install from source (recommended)
 
-```bash
-claude plugin install frontend-design-audit
-```
-
-That's it. The plugin and all commands are available in any project.
-
-### Or install from source
+Clone the repo and then add it as a local plugin marketplace inside Claude Code:
 
 ```bash
 git clone https://github.com/mistyhx/frontend-design-audit.git
+cd frontend-design-audit
+```
+
+Then inside Claude Code, run:
+
+```
+/plugin marketplace add .
+/plugin install frontend-design-audit --scope user
+```
+
+The plugin and all commands will be available in any project.
+
+### Or load for a single session
+
+```bash
 claude --plugin-dir ./frontend-design-audit
 ```
 
